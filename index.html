@@ -765,6 +765,10 @@
         margin-top: 2px;
       }
 
+      .rule-card:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+      }
+
       @media (max-width: 600px) {
         .rules-grid {
           grid-template-columns: 1fr;
@@ -775,6 +779,16 @@
         .node {
           min-width: 140px;
         }
+      }
+
+      .node.future-node {
+        opacity: 0.5;
+        border-style: dashed;
+        cursor: default;
+      }
+      .node.future-node:hover {
+        transform: none;
+        border-color: var(--border2);
       }
 
       @keyframes fadeUp {
@@ -839,8 +853,8 @@
               <div class="phase-label">Phase 01 · 8 weeks</div>
               <div class="phase-name">Solidify the Foundation</div>
               <div class="phase-duration">
-                Node.js · TypeScript · Auth · Testing · Git — Go deeper, not
-                wider
+                Node.js · TypeScript · Auth · Security · Testing · Git — Go
+                deeper, not wider
               </div>
               <div class="node-grid">
                 <div class="node active-node" onclick="toggleNode(this)">
@@ -972,6 +986,18 @@
                         </div>
                         <div class="panel-item">
                           Helmet.js — HTTP security headers
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Depth checkpoint</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          What happens if you skip validation on one endpoint?
+                          What can an attacker send?
+                        </div>
+                        <div class="panel-item">
+                          Why is client-side validation never enough?
                         </div>
                       </div>
                     </div>
@@ -1131,6 +1157,139 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="node active-node" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">Web Security</div>
+                  <div class="node-sub">CORS · HTTPS · OWASP · Hashing</div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          <strong>HTTPS & TLS</strong> — how encryption works,
+                          why HTTP is dangerous, certificates
+                        </div>
+                        <div class="panel-item">
+                          CORS — what it protects, preflight requests, common
+                          misconfigurations that leak APIs
+                        </div>
+                        <div class="panel-item">
+                          <strong>OWASP Top 10</strong> — SQL injection, XSS,
+                          CSRF, broken auth. Know what each looks like.
+                        </div>
+                        <div class="panel-item">
+                          Content Security Policy — what headers protect against
+                          XSS and clickjacking
+                        </div>
+                        <div class="panel-item">
+                          Hashing — bcrypt, argon2. Why MD5 and SHA-256 are
+                          wrong for passwords.
+                        </div>
+                        <div class="panel-item">
+                          SSL/TLS handshake — certificate authorities, Let's
+                          Encrypt, how HTTPS actually works under the hood
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Depth checkpoint</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Your friend stores passwords with SHA-256. Why is that
+                          insecure? What should they use instead?
+                        </div>
+                        <div class="panel-item">
+                          What is a CORS error, really? Not the browser message
+                          — what's actually happening at the protocol level?
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Can explain OWASP Top 10, CORS, and why bcrypt exists
+                        without looking anything up.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                style="
+                  margin-top: 16px;
+                  background: rgba(249, 115, 22, 0.03);
+                  border: 1px solid rgba(249, 115, 22, 0.12);
+                  border-radius: 10px;
+                  padding: 16px 20px;
+                "
+              >
+                <div
+                  style="
+                    font-family: &quot;IBM Plex Mono&quot;, monospace;
+                    font-size: 10px;
+                    letter-spacing: 0.15em;
+                    text-transform: uppercase;
+                    color: var(--p1);
+                    margin-bottom: 10px;
+                  "
+                >
+                  🔨 Phase 1 Projects — build these
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    font-size: 12px;
+                    color: var(--dim);
+                    line-height: 1.6;
+                  "
+                >
+                  <div style="padding-left: 20px; position: relative">
+                    <span style="position: absolute; left: 0; color: var(--p1)"
+                      >①</span
+                    >
+                    <strong style="color: var(--text)"
+                      >Expense Tracker CLI</strong
+                    >
+                    — Manage finances from the terminal. Practice TypeScript
+                    strict mode & file I/O.
+                  </div>
+                  <div style="padding-left: 20px; position: relative">
+                    <span style="position: absolute; left: 0; color: var(--p1)"
+                      >②</span
+                    >
+                    <strong style="color: var(--text)">Task Tracker API</strong>
+                    — Your main project. Full CRUD, auth, validation, testing,
+                    pagination.
+                  </div>
+                  <div style="padding-left: 20px; position: relative">
+                    <span style="position: absolute; left: 0; color: var(--p1)"
+                      >③</span
+                    >
+                    <strong style="color: var(--text)"
+                      >Weather API Wrapper</strong
+                    >
+                    — Fetch from a third-party API, transform data, handle
+                    errors gracefully.
+                  </div>
+                  <div style="padding-left: 20px; position: relative">
+                    <span style="position: absolute; left: 0; color: var(--p1)"
+                      >④</span
+                    >
+                    <strong style="color: var(--text)"
+                      >Blogging Platform API</strong
+                    >
+                    <span style="color: var(--muted)">(stretch)</span> — Users,
+                    posts, comments, tags. Apply everything from this phase.
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1145,7 +1304,8 @@
               <div class="phase-label p2">Phase 02 · 10 weeks</div>
               <div class="phase-name">Backend Architecture & Systems</div>
               <div class="phase-duration">
-                Databases · Caching · Queues · System Design · API Protocols
+                Databases · Caching · Queues · Docker · System Design · API
+                Protocols
               </div>
               <div class="node-grid">
                 <div class="node active-node p2" onclick="toggleNode(this)">
@@ -1178,6 +1338,31 @@
                         <div class="panel-item">
                           <strong>MongoDB vs PostgreSQL tradeoffs</strong> — you
                           know Mongo, now know when NOT to use it
+                        </div>
+                        <div class="panel-item">
+                          Database normalization — 1NF, 2NF, 3NF. Know when to
+                          denormalize for performance.
+                        </div>
+                        <div class="panel-item">
+                          <strong>N+1 query problem</strong> — what it is, how
+                          to detect it, how joins and eager loading fix it
+                        </div>
+                        <div class="panel-item">
+                          Database migrations — schema changes over time,
+                          up/down migrations, why they matter in teams
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Depth checkpoint</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          You add a column to a table in production. What could
+                          go wrong? How do migrations help?
+                        </div>
+                        <div class="panel-item">
+                          Your API loads a user's 50 tasks by looping with a
+                          separate query each. What's the problem?
                         </div>
                       </div>
                     </div>
@@ -1274,6 +1459,22 @@
                       </div>
                     </div>
                     <div class="panel-section">
+                      <div class="panel-section-title">
+                        Depth checkpoint — how it breaks
+                      </div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Your consumer crashes after dequeuing but before
+                          processing. What happens to that job? Is the user
+                          notified?
+                        </div>
+                        <div class="panel-item">
+                          What if the same job runs twice? Is your handler
+                          idempotent?
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
                       <div class="panel-section-title">Mark complete</div>
                       <div
                         class="panel-check"
@@ -1334,6 +1535,18 @@
                         </div>
                         <div class="panel-item">
                           Read: Designing Data-Intensive Applications ch. 1–3
+                        </div>
+                        <div class="panel-item">
+                          <strong>Architectural patterns</strong> — Monolith vs
+                          Microservices vs Serverless. Real tradeoffs, not hype.
+                        </div>
+                        <div class="panel-item">
+                          When to split a monolith — premature microservices are
+                          worse than a well-structured monolith
+                        </div>
+                        <div class="panel-item">
+                          Observability — structured logging, error tracking,
+                          metrics. You can't fix what you can't see.
                         </div>
                       </div>
                     </div>
@@ -1415,6 +1628,157 @@
                         Understands idempotency with real examples.
                       </div>
                     </div>
+                  </div>
+                </div>
+
+                <div class="node active-node p2" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">Docker Basics</div>
+                  <div class="node-sub">
+                    Containers · Dockerfile · Compose · Networking
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          <strong>Why containers exist</strong> — "works on my
+                          machine" problem, isolation, reproducibility
+                        </div>
+                        <div class="panel-item">
+                          Dockerfile — write one for your Node.js API.
+                          Understand every instruction.
+                        </div>
+                        <div class="panel-item">
+                          <strong>Docker Compose</strong> — multi-container
+                          apps: API + PostgreSQL + Redis in one command
+                        </div>
+                        <div class="panel-item">
+                          Docker networking — how containers talk to each other,
+                          port mapping, bridge networks
+                        </div>
+                        <div class="panel-item">
+                          Volumes — persist database data between container
+                          restarts
+                        </div>
+                        <div class="panel-item">
+                          Images vs containers — understand the layered build
+                          system, image caching, multi-stage builds
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Build this</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Containerize your Task API — one docker-compose.yml
+                          that starts API + PG + Redis
+                        </div>
+                        <div class="panel-item">
+                          Anyone should be able to clone your repo and run
+                          <strong>docker compose up</strong> to have everything
+                          working
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Depth checkpoint</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          What's the difference between a Docker image and a
+                          container? Why does it matter?
+                        </div>
+                        <div class="panel-item">
+                          Your API container can't connect to PostgreSQL. How do
+                          you debug container networking?
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Task API fully containerized. docker compose up works
+                        from a fresh clone.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                style="
+                  margin-top: 16px;
+                  background: rgba(59, 130, 246, 0.03);
+                  border: 1px solid rgba(59, 130, 246, 0.12);
+                  border-radius: 10px;
+                  padding: 16px 20px;
+                "
+              >
+                <div
+                  style="
+                    font-family: &quot;IBM Plex Mono&quot;, monospace;
+                    font-size: 10px;
+                    letter-spacing: 0.15em;
+                    text-transform: uppercase;
+                    color: var(--p2);
+                    margin-bottom: 10px;
+                  "
+                >
+                  🔨 Phase 2 Projects — build these
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    font-size: 12px;
+                    color: var(--dim);
+                    line-height: 1.6;
+                  "
+                >
+                  <div style="padding-left: 20px; position: relative">
+                    <span style="position: absolute; left: 0; color: var(--p2)"
+                      >①</span
+                    >
+                    <strong style="color: var(--text)"
+                      >URL Shortening Service</strong
+                    >
+                    — PostgreSQL + Redis caching + analytics. Classic system
+                    design problem made real.
+                  </div>
+                  <div style="padding-left: 20px; position: relative">
+                    <span style="position: absolute; left: 0; color: var(--p2)"
+                      >②</span
+                    >
+                    <strong style="color: var(--text)"
+                      >Caching Proxy Server</strong
+                    >
+                    — Sits between client and origin. Deep Redis + HTTP
+                    understanding.
+                  </div>
+                  <div style="padding-left: 20px; position: relative">
+                    <span style="position: absolute; left: 0; color: var(--p2)"
+                      >③</span
+                    >
+                    <strong style="color: var(--text)"
+                      >Image Processing Service</strong
+                    >
+                    — Upload, resize, convert via API. Queues + async processing
+                    in action.
+                  </div>
+                  <div style="padding-left: 20px; position: relative">
+                    <span style="position: absolute; left: 0; color: var(--p2)"
+                      >④</span
+                    >
+                    <strong style="color: var(--text)"
+                      >Multi-Container App</strong
+                    >
+                    — Docker Compose: API + PG + Redis + Worker. Your full stack
+                    in one command.
                   </div>
                 </div>
               </div>
@@ -1648,6 +2012,20 @@
                       </div>
                     </div>
                     <div class="panel-section">
+                      <div class="panel-section-title">Depth checkpoint</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Someone shows you code with a God class doing
+                          everything. Which SOLID principle is violated? Which
+                          pattern fixes it?
+                        </div>
+                        <div class="panel-item">
+                          Look at your CropScan Flutter code — which patterns
+                          did you use without knowing their names?
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
                       <div class="panel-section-title">Mark complete</div>
                       <div
                         class="panel-check"
@@ -1704,6 +2082,68 @@
                   </div>
                 </div>
               </div>
+
+              <div
+                style="
+                  margin-top: 16px;
+                  background: rgba(16, 185, 129, 0.03);
+                  border: 1px solid rgba(16, 185, 129, 0.12);
+                  border-radius: 10px;
+                  padding: 16px 20px;
+                "
+              >
+                <div
+                  style="
+                    font-family: &quot;IBM Plex Mono&quot;, monospace;
+                    font-size: 10px;
+                    letter-spacing: 0.15em;
+                    text-transform: uppercase;
+                    color: var(--p3);
+                    margin-bottom: 10px;
+                  "
+                >
+                  🔨 Phase 3 Projects — build these
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    font-size: 12px;
+                    color: var(--dim);
+                    line-height: 1.6;
+                  "
+                >
+                  <div style="padding-left: 20px; position: relative">
+                    <span style="position: absolute; left: 0; color: var(--p3)"
+                      >①</span
+                    >
+                    <strong style="color: var(--text)"
+                      >HTTP Server from Scratch</strong
+                    >
+                    — Your main project. Raw TCP, HTTP parsing, threading — no
+                    frameworks.
+                  </div>
+                  <div style="padding-left: 20px; position: relative">
+                    <span style="position: absolute; left: 0; color: var(--p3)"
+                      >②</span
+                    >
+                    <strong style="color: var(--text)">Broadcast Server</strong>
+                    — Multi-client TCP server. Clients connect and receive
+                    messages from others. Concurrency in action.
+                  </div>
+                  <div style="padding-left: 20px; position: relative">
+                    <span style="position: absolute; left: 0; color: var(--p3)"
+                      >③</span
+                    >
+                    <strong style="color: var(--text)"
+                      >Workout Tracker API (Spring Boot)</strong
+                    >
+                    — Users, exercises, sets, progress. Apply Spring Boot +
+                    SOLID + patterns.
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -1748,6 +2188,21 @@
                       </div>
                     </div>
                     <div class="panel-section">
+                      <div class="panel-section-title">Depth checkpoint</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Ask yourself: what problem have I seen at Bank of
+                          Africa that this system could solve? That makes it
+                          yours, not generic.
+                        </div>
+                        <div class="panel-item">
+                          For every box in your architecture diagram — what
+                          happens if that box goes down? Write it next to the
+                          box.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
                       <div class="panel-section-title">Mark complete</div>
                       <div
                         class="panel-check"
@@ -1786,6 +2241,33 @@
                           <strong
                             >README that reads like a design document</strong
                           >
+                        </div>
+                        <div class="panel-item">
+                          <strong>CI/CD pipeline</strong> — GitHub Actions for
+                          tests, lint, build on every push. No manual deploys.
+                        </div>
+                        <div class="panel-item">
+                          Deployment — deploy to a real server (Railway, Render,
+                          or VPS). It's not done until it's live.
+                        </div>
+                        <div class="panel-item">
+                          Dockerized — the whole stack runs with
+                          <strong>docker compose up</strong> from a fresh clone
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">
+                        Depth checkpoint — how it breaks
+                      </div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Kill your Redis container mid-request. Does the API
+                          crash or degrade gracefully?
+                        </div>
+                        <div class="panel-item">
+                          Send 1000 concurrent requests to one endpoint. What
+                          breaks first? How do you know?
                         </div>
                       </div>
                     </div>
@@ -1843,10 +2325,16 @@
                   </div>
                 </div>
 
-                <div class="node active-node p4" onclick="toggleNode(this)">
+                <div
+                  class="node future-node"
+                  onclick="toggleNode(this)"
+                  title="Unlocks after you complete the roadmap"
+                >
                   <div class="node-status"></div>
-                  <div class="node-title">DevOps — Phase 5</div>
-                  <div class="node-sub">Your natural next step after this</div>
+                  <div class="node-title">CI/CD & Cloud — Phase 5</div>
+                  <div class="node-sub">
+                    Your natural next step after this roadmap
+                  </div>
                   <div class="node-panel">
                     <div class="panel-section">
                       <div class="panel-section-title">
@@ -1854,12 +2342,16 @@
                       </div>
                       <div class="panel-items">
                         <div class="panel-item">
-                          By now you understand what you're deploying and why
-                          it's designed that way
+                          Docker basics covered in Phase 2 — now go deeper:
+                          Kubernetes, container orchestration, cloud providers
                         </div>
                         <div class="panel-item">
-                          DevOps without deep backend knowledge is shallow —
-                          Dadson confirmed this
+                          Advanced CI/CD — deployment strategies (blue-green,
+                          canary), infrastructure as code (Terraform)
+                        </div>
+                        <div class="panel-item">
+                          Cloud platforms — AWS/GCP fundamentals, managed
+                          services, monitoring & observability
                         </div>
                         <div class="panel-item">
                           <strong
@@ -1868,11 +2360,75 @@
                           >
                         </div>
                         <div class="panel-item">
-                          Docker, CI/CD, cloud — you'll understand what problem
-                          each tool solves
+                          DevOps without deep backend knowledge is shallow —
+                          Dadson confirmed this. You now have the depth.
                         </div>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                style="
+                  margin-top: 16px;
+                  background: rgba(139, 92, 246, 0.03);
+                  border: 1px solid rgba(139, 92, 246, 0.12);
+                  border-radius: 10px;
+                  padding: 16px 20px;
+                "
+              >
+                <div
+                  style="
+                    font-family: &quot;IBM Plex Mono&quot;, monospace;
+                    font-size: 10px;
+                    letter-spacing: 0.15em;
+                    text-transform: uppercase;
+                    color: var(--p4);
+                    margin-bottom: 10px;
+                  "
+                >
+                  🔨 Phase 4 Capstone Ideas
+                </div>
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    gap: 8px;
+                    font-size: 12px;
+                    color: var(--dim);
+                    line-height: 1.6;
+                  "
+                >
+                  <div style="padding-left: 20px; position: relative">
+                    <span style="position: absolute; left: 0; color: var(--p4)"
+                      >①</span
+                    >
+                    <strong style="color: var(--text)"
+                      >E-Commerce Platform</strong
+                    >
+                    — Products, cart, checkout, payment integration. The
+                    ultimate backend project.
+                  </div>
+                  <div style="padding-left: 20px; position: relative">
+                    <span style="position: absolute; left: 0; color: var(--p4)"
+                      >②</span
+                    >
+                    <strong style="color: var(--text)"
+                      >Fintech API (Bank of Africa context)</strong
+                    >
+                    — Transfers, transaction history, fraud detection. Your
+                    domain knowledge is your edge.
+                  </div>
+                  <div style="padding-left: 20px; position: relative">
+                    <span style="position: absolute; left: 0; color: var(--p4)"
+                      >③</span
+                    >
+                    <strong style="color: var(--text)"
+                      >Markdown Note-taking App</strong
+                    >
+                    — Full-stack: API + real-time sync + search. Combines
+                    everything you've learned.
                   </div>
                 </div>
               </div>
@@ -2053,6 +2609,70 @@
                 <strong>Written down, every week.</strong> Publicly if possible.
               </div>
             </div>
+            <div class="rule-card">
+              <div class="rule-icon">🌱</div>
+              <div class="rule-title">Teach It Once</div>
+              <div class="rule-body">
+                Every phase,
+                <strong>explain one concept to someone else</strong> — a thread,
+                a blog post, or a 5-min DevCongress talk. If you can make
+                someone else understand it, you own it.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 32px">
+          <div
+            style="
+              font-family: &quot;Syne&quot;, sans-serif;
+              font-size: 18px;
+              font-weight: 700;
+              margin-bottom: 16px;
+            "
+          >
+            When You Stall — Recovery Protocol
+          </div>
+          <div
+            style="
+              background: rgba(59, 130, 246, 0.04);
+              border: 1px solid rgba(59, 130, 246, 0.15);
+              border-radius: 10px;
+              padding: 20px 24px;
+              font-size: 13px;
+              color: var(--dim);
+              line-height: 1.8;
+            "
+          >
+            <p
+              style="margin-bottom: 12px; color: var(--text); font-weight: 500"
+            >
+              You will miss a Saturday. Maybe two. Maybe a whole month. This is
+              not failure — it's expected. Here's how you come back:
+            </p>
+            <p style="margin-bottom: 8px">
+              <strong style="color: var(--p2)">1. Don't restart.</strong> Open
+              your roadmap. Find the last thing you checked off. Start from the
+              next one. You didn't lose your progress.
+            </p>
+            <p style="margin-bottom: 8px">
+              <strong style="color: var(--p2)">2. Shrink the session.</strong>
+              If 3 hours feels impossible, do 45 minutes. The goal is to break
+              the stall, not to catch up in one day.
+            </p>
+            <p style="margin-bottom: 8px">
+              <strong style="color: var(--p2)"
+                >3. Re-explain the last thing you learned.</strong
+              >
+              Say it out loud. If you still can, you're closer than you think.
+              If you can't, that's your next session — not a failure, a starting
+              point.
+            </p>
+            <p>
+              <strong style="color: var(--p2)">4. Text someone.</strong> Send a
+              DevCongress friend or a peer your 3 sentences. Accountability
+              survives isolation. Silence kills momentum.
+            </p>
           </div>
         </div>
       </div>
@@ -2085,7 +2705,7 @@
                 style="opacity: 0.3"
               ></div>
               <div class="op-phase-label">Phase 1</div>
-              <div class="op-phase-count" id="p1-count">0/6</div>
+              <div class="op-phase-count" id="p1-count">–</div>
             </div>
             <div class="op-phase">
               <div
@@ -2094,7 +2714,7 @@
                 style="opacity: 0.3"
               ></div>
               <div class="op-phase-label">Phase 2</div>
-              <div class="op-phase-count" id="p2-count">0/5</div>
+              <div class="op-phase-count" id="p2-count">–</div>
             </div>
             <div class="op-phase">
               <div
@@ -2103,7 +2723,7 @@
                 style="opacity: 0.3"
               ></div>
               <div class="op-phase-label">Phase 3</div>
-              <div class="op-phase-count" id="p3-count">0/5</div>
+              <div class="op-phase-count" id="p3-count">–</div>
             </div>
             <div class="op-phase">
               <div
@@ -2112,7 +2732,7 @@
                 style="opacity: 0.3"
               ></div>
               <div class="op-phase-label">Phase 4</div>
-              <div class="op-phase-count" id="p4-count">0/3</div>
+              <div class="op-phase-count" id="p4-count">–</div>
             </div>
           </div>
         </div>
@@ -2193,6 +2813,18 @@
               </div>
             </div>
           </div>
+          <div class="milestone" data-phase="1" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                Web Security — OWASP, CORS, HTTPS understood
+              </div>
+              <div class="milestone-desc">
+                Can explain OWASP Top 10, CORS mechanics, and why bcrypt exists
+                — not just definitions, real attack scenarios.
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="milestone-group">
@@ -2255,6 +2887,18 @@
               <div class="milestone-desc">
                 Can explain idempotency, REST vs gRPC vs GraphQL tradeoffs,
                 webhooks, and sync vs async patterns with real examples.
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="2" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                Docker — Task API fully containerized
+              </div>
+              <div class="milestone-desc">
+                Dockerfile written, docker-compose.yml with API + PG + Redis.
+                Anyone can clone and run with one command.
               </div>
             </div>
           </div>
@@ -2538,7 +3182,12 @@
       // ── PROGRESS ──
       function updateGlobalProgress() {
         const phases = [1, 2, 3, 4];
-        const totals = { 1: 6, 2: 5, 3: 5, 4: 3 };
+        const totals = {};
+        phases.forEach((p) => {
+          totals[p] = document.querySelectorAll(
+            `.milestone[data-phase="${p}"]`,
+          ).length;
+        });
         let totalDone = 0,
           totalAll = 0;
 
