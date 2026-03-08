@@ -1032,19 +1032,258 @@ body {
 }
 
 /* ══════════════════════════════════
-   RESPONSIVE
+   RESPONSIVE — Tablet (≤768px)
 ══════════════════════════════════ */
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  /* Nav: stack brand above tabs+progress */
+  .nav {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 10px 16px;
+    gap: 6px;
+  }
+
+  .nav-brand {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .nav-tabs {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .nav-tab {
+    padding: 5px 10px;
+    font-size: 10px;
+  }
+
+  .nav-bar {
+    width: 80px;
+  }
+
+  /* Reduce section padding */
+  .graph-view,
+  .weekly-view,
+  .tracker-view {
+    padding: 24px 16px 60px;
+  }
+
+  /* Schedule card: stack the grid */
+  .schedule-card-header {
+    grid-template-columns: 1fr auto;
+    gap: 8px;
+  }
+
+  .sched-day {
+    grid-column: 1 / -1;
+  }
+
+  /* Rules grid: single column */
   .rules-grid {
     grid-template-columns: 1fr;
   }
 
+  /* Tracker progress phases: 2-col */
   .op-phases {
     grid-template-columns: repeat(2, 1fr);
   }
 
+  /* Recovery card: tighter padding */
+  .recovery-card {
+    padding: 16px 18px;
+  }
+
+  /* Overall progress widget */
+  .overall-progress {
+    padding: 18px 16px;
+  }
+}
+
+/* ══════════════════════════════════
+   RESPONSIVE — Mobile (≤480px)
+══════════════════════════════════ */
+
+@media (max-width: 480px) {
+  /* Nav: fully centered stack */
+  .nav {
+    padding: 8px 12px;
+    gap: 4px;
+  }
+
+  .nav-brand {
+    font-size: 13px;
+  }
+
+  .nav-tabs {
+    width: 100%;
+    justify-content: center;
+    gap: 2px;
+  }
+
+  .nav-tab {
+    padding: 5px 8px;
+    font-size: 9px;
+    letter-spacing: 0.03em;
+  }
+
+  .nav-progress {
+    width: 100%;
+    justify-content: center;
+    padding-bottom: 2px;
+  }
+
+  /* Phase spine: collapse to thin line */
+  .phase-spine {
+    width: 20px;
+  }
+
+  .spine-dot {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* Phase headings */
+  .phase-name {
+    font-size: 17px;
+  }
+
+  .phase-duration {
+    font-size: 11px;
+  }
+
+  /* Nodes: full width stack */
+  .node-grid {
+    flex-direction: column;
+  }
+
   .node {
-    min-width: 140px;
+    min-width: 0;
+    width: 100%;
+  }
+
+  /* Node panel: tighter */
+  .node-panel {
+    padding: 12px 14px;
+  }
+
+  .panel-item {
+    font-size: 11px;
+  }
+
+  /* Graph header */
+  .graph-header h1 {
+    font-size: 24px;
+  }
+
+  .graph-header p {
+    font-size: 13px;
+  }
+
+  /* Section padding */
+  .graph-view,
+  .weekly-view,
+  .tracker-view {
+    padding: 16px 12px 48px;
+  }
+
+  /* Weekly view headings */
+  .week-header h2,
+  .tracker-header h2 {
+    font-size: 22px;
+  }
+
+  /* Schedule cards */
+  .schedule-card-header {
+    grid-template-columns: 1fr;
+    gap: 4px;
+    padding: 12px 14px;
+  }
+
+  .sched-title {
+    font-size: 13px;
+  }
+
+  .sched-time {
+    justify-self: start;
+  }
+
+  .schedule-card-body {
+    padding: 0 14px 12px;
+  }
+
+  .sched-task {
+    font-size: 12px;
+  }
+
+  /* Rules */
+  .section-heading {
+    font-size: 16px;
+  }
+
+  .rule-card {
+    padding: 14px 16px;
+  }
+
+  .rule-title {
+    font-size: 13px;
+  }
+
+  .rule-body {
+    font-size: 11px;
+  }
+
+  /* Recovery */
+  .recovery-card {
+    padding: 14px 16px;
+    font-size: 12px;
+  }
+
+  /* Milestones */
+  .milestone {
+    padding: 12px 12px;
+    gap: 10px;
+  }
+
+  .milestone-title {
+    font-size: 12px;
+  }
+
+  .milestone-desc {
+    font-size: 11px;
+  }
+
+  /* Explain test */
+  .explain-test {
+    padding: 14px 16px;
+  }
+
+  .explain-test p {
+    font-size: 12px;
+  }
+
+  /* Project ladder */
+  .project-ladder {
+    padding: 14px 16px;
+  }
+
+  .project-ladder-list {
+    font-size: 11px;
+  }
+
+  /* Overall progress */
+  .overall-progress {
+    padding: 16px 12px;
+  }
+
+  .op-title {
+    font-size: 14px;
+  }
+
+  .op-phases {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
   }
 }
