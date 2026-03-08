@@ -1,0 +1,2573 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kwame — Backend Engineering Roadmap</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #080810;
+        --surface: #0f0f1a;
+        --surface2: #14141f;
+        --border: #1a1a2e;
+        --border2: #222235;
+        --p1: #f97316;
+        --p2: #3b82f6;
+        --p3: #10b981;
+        --p4: #8b5cf6;
+        --done: #10b981;
+        --text: #e2e8f0;
+        --muted: #64748b;
+        --dim: #94a3b8;
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Inter", sans-serif;
+        min-height: 100vh;
+      }
+
+      /* ── TOP NAV ── */
+      .nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(8, 8, 16, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 56px;
+      }
+      .nav-brand {
+        font-family: "Syne", sans-serif;
+        font-weight: 800;
+        font-size: 16px;
+        letter-spacing: -0.02em;
+      }
+      .nav-brand span {
+        color: var(--p1);
+      }
+      .nav-tabs {
+        display: flex;
+        gap: 4px;
+      }
+      .nav-tab {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        padding: 6px 14px;
+        border-radius: 6px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition: all 0.2s;
+        color: var(--muted);
+        background: transparent;
+      }
+      .nav-tab.active {
+        color: var(--text);
+        background: var(--surface2);
+        border-color: var(--border2);
+      }
+      .nav-tab:hover:not(.active) {
+        color: var(--dim);
+      }
+      .nav-progress {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .nav-pct {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        color: var(--p1);
+      }
+      .nav-bar {
+        width: 100px;
+        height: 3px;
+        background: var(--border2);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .nav-bar-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--p1), var(--p2));
+        transition: width 0.4s ease;
+        width: 0%;
+      }
+
+      /* ── VIEWS ── */
+      .view {
+        display: none;
+      }
+      .view.active {
+        display: block;
+      }
+
+      /* ══════════════════════════════════
+   GRAPH VIEW
+══════════════════════════════════ */
+      .graph-view {
+        padding: 40px 24px 80px;
+        max-width: 1000px;
+        margin: 0 auto;
+      }
+
+      .graph-header {
+        margin-bottom: 48px;
+      }
+      .graph-header h1 {
+        font-family: "Syne", sans-serif;
+        font-size: clamp(28px, 5vw, 42px);
+        font-weight: 800;
+        letter-spacing: -0.02em;
+        margin-bottom: 8px;
+      }
+      .graph-header h1 span {
+        color: var(--p1);
+      }
+      .graph-header p {
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      /* Phase column layout */
+      .graph-phases {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .graph-phase {
+        display: flex;
+        gap: 0;
+        align-items: flex-start;
+      }
+
+      .phase-spine {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 40px;
+        flex-shrink: 0;
+        padding-top: 20px;
+      }
+      .spine-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        border: 2px solid var(--p1);
+        background: var(--bg);
+        flex-shrink: 0;
+        position: relative;
+        z-index: 2;
+      }
+      .spine-dot.p2 {
+        border-color: var(--p2);
+      }
+      .spine-dot.p3 {
+        border-color: var(--p3);
+      }
+      .spine-dot.p4 {
+        border-color: var(--p4);
+      }
+      .spine-line {
+        width: 1px;
+        flex: 1;
+        min-height: 40px;
+        background: linear-gradient(to bottom, var(--border2), transparent);
+        margin-top: 4px;
+      }
+
+      .phase-content {
+        flex: 1;
+        padding-bottom: 48px;
+      }
+
+      .phase-label {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--p1);
+        margin-bottom: 12px;
+        padding-top: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .phase-label.p2 {
+        color: var(--p2);
+      }
+      .phase-label.p3 {
+        color: var(--p3);
+      }
+      .phase-label.p4 {
+        color: var(--p4);
+      }
+      .phase-label::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      .phase-name {
+        font-family: "Syne", sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .phase-duration {
+        font-size: 12px;
+        color: var(--muted);
+        margin-bottom: 20px;
+      }
+
+      /* Node grid */
+      .node-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .node {
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 10px;
+        padding: 12px 16px;
+        cursor: pointer;
+        transition: all 0.2s;
+        position: relative;
+        min-width: 160px;
+        user-select: none;
+      }
+      .node:hover {
+        border-color: var(--muted);
+        transform: translateY(-1px);
+      }
+      .node.done {
+        border-color: var(--done);
+        background: rgba(16, 185, 129, 0.04);
+      }
+      .node.active-node {
+        border-color: var(--p1);
+        background: rgba(249, 115, 22, 0.05);
+      }
+      .node.active-node.p2 {
+        border-color: var(--p2);
+        background: rgba(59, 130, 246, 0.05);
+      }
+      .node.active-node.p3 {
+        border-color: var(--p3);
+        background: rgba(16, 185, 129, 0.05);
+      }
+      .node.active-node.p4 {
+        border-color: var(--p4);
+        background: rgba(139, 92, 246, 0.05);
+      }
+
+      .node-status {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--border2);
+      }
+      .node.done .node-status {
+        background: var(--done);
+      }
+      .node.active-node .node-status {
+        background: var(--p1);
+        box-shadow: 0 0 6px var(--p1);
+      }
+      .node.active-node.p2 .node-status {
+        background: var(--p2);
+        box-shadow: 0 0 6px var(--p2);
+      }
+      .node.active-node.p3 .node-status {
+        background: var(--p3);
+        box-shadow: 0 0 6px var(--p3);
+      }
+      .node.active-node.p4 .node-status {
+        background: var(--p4);
+        box-shadow: 0 0 6px var(--p4);
+      }
+
+      .node-title {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 3px;
+        padding-right: 14px;
+      }
+      .node-sub {
+        font-size: 11px;
+        color: var(--muted);
+        line-height: 1.4;
+      }
+
+      /* Node detail panel */
+      .node-panel {
+        display: none;
+        margin-top: 8px;
+        background: var(--surface2);
+        border: 1px solid var(--border2);
+        border-radius: 10px;
+        padding: 16px 20px;
+        width: 100%;
+      }
+      .node-panel.open {
+        display: block;
+        animation: slideDown 0.2s ease;
+      }
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-6px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .panel-section {
+        margin-bottom: 14px;
+      }
+      .panel-section:last-child {
+        margin-bottom: 0;
+      }
+      .panel-section-title {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+      .panel-items {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .panel-item {
+        font-size: 12px;
+        color: var(--dim);
+        line-height: 1.5;
+        padding-left: 14px;
+        position: relative;
+      }
+      .panel-item::before {
+        content: "→";
+        position: absolute;
+        left: 0;
+        color: var(--p1);
+        font-size: 10px;
+        top: 1px;
+      }
+      .panel-item strong {
+        color: var(--text);
+        font-weight: 500;
+      }
+
+      .panel-check {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 10px;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.15s;
+        font-size: 12px;
+        color: var(--dim);
+      }
+      .panel-check:hover {
+        border-color: var(--muted);
+        color: var(--text);
+      }
+      .panel-check.checked {
+        border-color: var(--done);
+        color: var(--text);
+        background: rgba(16, 185, 129, 0.04);
+      }
+      .panel-check-box {
+        width: 16px;
+        height: 16px;
+        border-radius: 4px;
+        border: 1.5px solid var(--muted);
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        transition: all 0.15s;
+      }
+      .panel-check.checked .panel-check-box {
+        background: var(--done);
+        border-color: var(--done);
+        color: #000;
+      }
+
+      /* ══════════════════════════════════
+   WEEKLY VIEW
+══════════════════════════════════ */
+      .weekly-view {
+        padding: 40px 24px 80px;
+        max-width: 860px;
+        margin: 0 auto;
+      }
+
+      .week-header {
+        margin-bottom: 40px;
+      }
+      .week-header h2 {
+        font-family: "Syne", sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 6px;
+      }
+      .week-header p {
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      .schedule-card {
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 12px;
+        overflow: hidden;
+        margin-bottom: 12px;
+      }
+      .schedule-card-header {
+        display: grid;
+        grid-template-columns: 80px 1fr auto;
+        align-items: center;
+        gap: 16px;
+        padding: 16px 20px;
+        cursor: pointer;
+        transition: background 0.15s;
+      }
+      .schedule-card-header:hover {
+        background: var(--surface2);
+      }
+
+      .sched-day {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .sched-title {
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .sched-time {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        color: var(--p1);
+        background: rgba(249, 115, 22, 0.08);
+        padding: 3px 10px;
+        border-radius: 20px;
+        white-space: nowrap;
+      }
+      .sched-time.dim {
+        color: var(--muted);
+        background: var(--surface2);
+      }
+
+      .schedule-card-body {
+        display: none;
+        padding: 0 20px 16px;
+        border-top: 1px solid var(--border);
+      }
+      .schedule-card-body.open {
+        display: block;
+      }
+      .sched-tasks {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-top: 12px;
+      }
+      .sched-task {
+        font-size: 13px;
+        color: var(--dim);
+        padding-left: 16px;
+        position: relative;
+        line-height: 1.6;
+      }
+      .sched-task::before {
+        content: "·";
+        position: absolute;
+        left: 4px;
+        color: var(--p1);
+      }
+      .sched-task strong {
+        color: var(--text);
+        font-weight: 500;
+      }
+
+      /* Rules */
+      .rules-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        margin-top: 24px;
+      }
+      .rule-card {
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 10px;
+        padding: 18px 20px;
+      }
+      .rule-icon {
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+      .rule-title {
+        font-family: "Syne", sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+      .rule-body {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+      .rule-body strong {
+        color: var(--dim);
+      }
+
+      /* ══════════════════════════════════
+   TRACKER VIEW
+══════════════════════════════════ */
+      .tracker-view {
+        padding: 40px 24px 80px;
+        max-width: 760px;
+        margin: 0 auto;
+      }
+
+      .tracker-header {
+        margin-bottom: 32px;
+      }
+      .tracker-header h2 {
+        font-family: "Syne", sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        margin-bottom: 6px;
+      }
+      .tracker-header p {
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      .milestone-group {
+        margin-bottom: 32px;
+      }
+      .milestone-group-title {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--p1);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .milestone-group-title.p2 {
+        color: var(--p2);
+      }
+      .milestone-group-title.p3 {
+        color: var(--p3);
+      }
+      .milestone-group-title.p4 {
+        color: var(--p4);
+      }
+      .milestone-group-title::after {
+        content: "";
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      .milestone {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        padding: 14px 16px;
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 10px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      .milestone:hover {
+        border-color: var(--muted);
+      }
+      .milestone.done {
+        border-color: var(--done);
+        background: rgba(16, 185, 129, 0.03);
+      }
+
+      .milestone-box {
+        width: 20px;
+        height: 20px;
+        border-radius: 5px;
+        border: 1.5px solid var(--muted);
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        transition: all 0.2s;
+        margin-top: 1px;
+      }
+      .milestone.done .milestone-box {
+        background: var(--done);
+        border-color: var(--done);
+        color: #000;
+      }
+
+      .milestone-content {
+        flex: 1;
+      }
+      .milestone-title {
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 3px;
+      }
+      .milestone.done .milestone-title {
+        color: var(--muted);
+        text-decoration: line-through;
+      }
+      .milestone-desc {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .explain-test {
+        background: rgba(249, 115, 22, 0.04);
+        border: 1px solid rgba(249, 115, 22, 0.15);
+        border-radius: 10px;
+        padding: 16px 20px;
+        margin-top: 24px;
+      }
+      .explain-test-title {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--p1);
+        margin-bottom: 8px;
+      }
+      .explain-test p {
+        font-size: 13px;
+        color: var(--dim);
+        line-height: 1.7;
+      }
+      .explain-test p strong {
+        color: var(--text);
+      }
+
+      /* overall progress */
+      .overall-progress {
+        background: var(--surface);
+        border: 1px solid var(--border2);
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 32px;
+      }
+      .op-label {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .op-title {
+        font-family: "Syne", sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+      }
+      .op-pct {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 14px;
+        color: var(--p1);
+      }
+      .op-bar {
+        height: 6px;
+        background: var(--border2);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+      .op-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--p1), var(--p2), var(--p3));
+        transition: width 0.4s ease;
+      }
+      .op-phases {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-top: 16px;
+      }
+      .op-phase {
+        text-align: center;
+      }
+      .op-phase-bar {
+        height: 3px;
+        border-radius: 2px;
+        margin-bottom: 6px;
+      }
+      .op-phase-bar.c1 {
+        background: var(--p1);
+      }
+      .op-phase-bar.c2 {
+        background: var(--p2);
+      }
+      .op-phase-bar.c3 {
+        background: var(--p3);
+      }
+      .op-phase-bar.c4 {
+        background: var(--p4);
+      }
+      .op-phase-label {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+      .op-phase-count {
+        font-size: 12px;
+        font-weight: 600;
+        margin-top: 2px;
+      }
+
+      @media (max-width: 600px) {
+        .rules-grid {
+          grid-template-columns: 1fr;
+        }
+        .op-phases {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .node {
+          min-width: 140px;
+        }
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .graph-phase,
+      .schedule-card,
+      .milestone,
+      .rule-card {
+        animation: fadeUp 0.4s ease both;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="nav-brand">Kwame <span>/ Backend Roadmap</span></div>
+      <div class="nav-tabs">
+        <button class="nav-tab active" onclick="switchView('graph', this)">
+          Skill Map
+        </button>
+        <button class="nav-tab" onclick="switchView('weekly', this)">
+          Weekly Plan
+        </button>
+        <button class="nav-tab" onclick="switchView('tracker', this)">
+          Tracker
+        </button>
+      </div>
+      <div class="nav-progress">
+        <span class="nav-pct" id="nav-pct">0%</span>
+        <div class="nav-bar">
+          <div class="nav-bar-fill" id="nav-fill"></div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ══════════════ GRAPH VIEW ══════════════ -->
+    <div class="view active" id="view-graph">
+      <div class="graph-view">
+        <div class="graph-header">
+          <h1>Your Path to<br /><span>Systems Thinking</span></h1>
+          <p>
+            Click any node to see what to study and how deep to go. Check it
+            when you can explain it without AI.
+          </p>
+        </div>
+
+        <div class="graph-phases">
+          <!-- PHASE 1 -->
+          <div class="graph-phase">
+            <div class="phase-spine">
+              <div class="spine-dot"></div>
+              <div class="spine-line"></div>
+            </div>
+            <div class="phase-content">
+              <div class="phase-label">Phase 01 · 8 weeks</div>
+              <div class="phase-name">Solidify the Foundation</div>
+              <div class="phase-duration">
+                Node.js · TypeScript · Auth · Testing · Git — Go deeper, not
+                wider
+              </div>
+              <div class="node-grid">
+                <div class="node active-node" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">TypeScript (Strict)</div>
+                  <div class="node-sub">
+                    Interfaces · Generics · Utility Types
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Strict mode — understand every compiler flag
+                        </div>
+                        <div class="panel-item">
+                          Interfaces vs types — when to use which
+                        </div>
+                        <div class="panel-item">
+                          <strong>Generics</strong> — write reusable, typed
+                          functions
+                        </div>
+                        <div class="panel-item">
+                          Utility types: Partial, Pick, Omit, Record
+                        </div>
+                        <div class="panel-item">
+                          Decorators for Express middleware
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">
+                        Depth checkpoint — explain without AI
+                      </div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Why does TypeScript exist? What does it prevent?
+                        </div>
+                        <div class="panel-item">
+                          Rebuild your Contact API entirely in strict TypeScript
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Rebuilt Contact API in strict TypeScript — can explain
+                        every annotation
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">Auth Done Right</div>
+                  <div class="node-sub">
+                    Refresh Tokens · Rotation · Revocation
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          <strong>Refresh token strategy</strong> — why 15min
+                          alone fails
+                        </div>
+                        <div class="panel-item">
+                          Token rotation — invalidate old tokens on use
+                        </div>
+                        <div class="panel-item">
+                          Revocation — blacklisting tokens in Redis
+                        </div>
+                        <div class="panel-item">
+                          JWT vulnerabilities — alg:none, weak secrets
+                        </div>
+                        <div class="panel-item">
+                          Rate limiting auth endpoints specifically
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Depth checkpoint</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Whiteboard the full auth flow — login to token refresh
+                          to logout
+                        </div>
+                        <div class="panel-item">
+                          What happens if a refresh token is stolen?
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Implemented refresh + rotation. Can explain every attack
+                        vector.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">Input Validation</div>
+                  <div class="node-sub">Zod · Sanitization · Rate Limiting</div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          <strong>Zod</strong> — schema validation, parse vs
+                          safeParse
+                        </div>
+                        <div class="panel-item">
+                          Sanitization — what gets through if you skip it
+                        </div>
+                        <div class="panel-item">
+                          express-rate-limit — sliding window vs fixed window
+                        </div>
+                        <div class="panel-item">
+                          Helmet.js — HTTP security headers
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        All API endpoints validated, rate limited, and helmet
+                        secured
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">Testing</div>
+                  <div class="node-sub">Jest · Unit · Integration</div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          <strong>Jest fundamentals</strong> — describe, it,
+                          expect, mocks
+                        </div>
+                        <div class="panel-item">
+                          Unit testing controllers and middleware in isolation
+                        </div>
+                        <div class="panel-item">
+                          Integration tests with Supertest — test actual HTTP
+                          requests
+                        </div>
+                        <div class="panel-item">
+                          What to test vs what not to — don't chase 100%
+                          coverage blindly
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Depth checkpoint</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Why does a test give you confidence? What does it
+                          actually prove?
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Every controller and middleware has tests. Can explain
+                        what each test proves.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">Task API Project</div>
+                  <div class="node-sub">
+                    Apply everything · Pagination · Filtering
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">Build this</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Task management API — users, tasks, projects,
+                          assignments
+                        </div>
+                        <div class="panel-item">
+                          Pagination, filtering, sorting on all list endpoints
+                        </div>
+                        <div class="panel-item">
+                          Full TypeScript, tested, validated, rate limited
+                        </div>
+                        <div class="panel-item">
+                          <strong
+                            >Write the architecture diagram before writing
+                            code</strong
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Task API built and on GitHub. Can whiteboard
+                        architecture from memory.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">Git & Workflow</div>
+                  <div class="node-sub">Branching · PRs · Commits · README</div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          <strong>Git branching strategies</strong> — feature
+                          branches, Git Flow basics
+                        </div>
+                        <div class="panel-item">
+                          Meaningful commit messages — conventional commits
+                          format
+                        </div>
+                        <div class="panel-item">
+                          Pull request discipline — small PRs, clear
+                          descriptions, self-review before team review
+                        </div>
+                        <div class="panel-item">
+                          Resolving merge conflicts — understand what Git is
+                          actually doing under the hood
+                        </div>
+                        <div class="panel-item">
+                          .gitignore, README writing, repository hygiene — your
+                          GitHub is your portfolio
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Depth checkpoint</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Can you explain rebase vs merge? When would you use
+                          each?
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        All projects use proper Git workflow. Commits tell a
+                        story. READMEs are portfolio-ready.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 2 -->
+          <div class="graph-phase">
+            <div class="phase-spine">
+              <div class="spine-dot p2"></div>
+              <div class="spine-line"></div>
+            </div>
+            <div class="phase-content">
+              <div class="phase-label p2">Phase 02 · 10 weeks</div>
+              <div class="phase-name">Backend Architecture & Systems</div>
+              <div class="phase-duration">
+                Databases · Caching · Queues · System Design · API Protocols
+              </div>
+              <div class="node-grid">
+                <div class="node active-node p2" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">PostgreSQL</div>
+                  <div class="node-sub">
+                    SQL · Indexing · Transactions · ACID
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          <strong>SQL deeply</strong> — JOINs, subqueries,
+                          window functions
+                        </div>
+                        <div class="panel-item">
+                          Indexing — B-tree, when indexes hurt, EXPLAIN ANALYZE
+                        </div>
+                        <div class="panel-item">
+                          ACID properties — what each letter actually means in
+                          practice
+                        </div>
+                        <div class="panel-item">
+                          Transactions and isolation levels
+                        </div>
+                        <div class="panel-item">
+                          Prisma or Knex as your ORM/query builder
+                        </div>
+                        <div class="panel-item">
+                          <strong>MongoDB vs PostgreSQL tradeoffs</strong> — you
+                          know Mongo, now know when NOT to use it
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Migrated Task API to PostgreSQL. Can explain every query
+                        decision.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node p2" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">Redis & Caching</div>
+                  <div class="node-sub">
+                    Cache Strategies · Invalidation · Sessions
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Redis data structures — strings, hashes, sets, sorted
+                          sets
+                        </div>
+                        <div class="panel-item">
+                          <strong>Cache strategies</strong> — cache-aside,
+                          write-through, write-behind
+                        </div>
+                        <div class="panel-item">
+                          Cache invalidation — why it's hard, TTL strategies
+                        </div>
+                        <div class="panel-item">
+                          <strong>Cache eviction policies</strong> — LRU, LFU,
+                          FIFO. Know when each applies and why.
+                        </div>
+                        <div class="panel-item">
+                          Using Redis for sessions and token blacklisting
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Depth checkpoint</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          What breaks in your API if Redis goes down?
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Redis caching added to Task API. Can explain cache
+                        invalidation strategy.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node p2" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">Message Queues</div>
+                  <div class="node-sub">
+                    BullMQ · Async Jobs · Background Processing
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          <strong>Why queues exist</strong> — decoupling,
+                          resilience, async processing
+                        </div>
+                        <div class="panel-item">
+                          BullMQ — jobs, workers, queues, retries, dead letter
+                          queues
+                        </div>
+                        <div class="panel-item">
+                          Build: email notification queue for your Task API
+                        </div>
+                        <div class="panel-item">
+                          What happens when a job fails? Retry strategies.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Background job queue implemented. Can explain the full
+                        job lifecycle.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node p2" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">System Design</div>
+                  <div class="node-sub">
+                    CAP · Availability · Fault Tolerance · Scaling · Sharding
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          CAP theorem — can you explain it without a definition?
+                        </div>
+                        <div class="panel-item">
+                          Horizontal vs vertical scaling — tradeoffs
+                        </div>
+                        <div class="panel-item">
+                          Load balancing strategies — round robin, least
+                          connections
+                        </div>
+                        <div class="panel-item">
+                          <strong>Availability & Fault Tolerance</strong> — what
+                          "five nines" means, graceful degradation, circuit
+                          breakers
+                        </div>
+                        <div class="panel-item">
+                          Stateful vs Stateless architecture — why stateless
+                          scales, session tradeoffs
+                        </div>
+                        <div class="panel-item">
+                          Proxy vs Reverse Proxy — Nginx as reverse proxy, what
+                          problem each solves
+                        </div>
+                        <div class="panel-item">
+                          CDN — what it is, when to use it, edge caching vs
+                          origin
+                        </div>
+                        <div class="panel-item">
+                          Data Sharding & Partitioning — horizontal splitting,
+                          when and why
+                        </div>
+                        <div class="panel-item">
+                          <strong>Practice designing</strong> — URL shortener,
+                          notification system, file upload service
+                        </div>
+                        <div class="panel-item">
+                          Read: Designing Data-Intensive Applications ch. 1–3
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Designed 3 systems on paper. Can explain CAP theorem
+                        with real examples.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node p2" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">API Design & Protocols</div>
+                  <div class="node-sub">
+                    Idempotency · gRPC · GraphQL · Webhooks
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          <strong>Idempotency</strong> — why it matters,
+                          idempotency keys, safe vs unsafe HTTP methods
+                        </div>
+                        <div class="panel-item">
+                          REST vs gRPC vs GraphQL — real tradeoffs, not
+                          definitions. When to pick each.
+                        </div>
+                        <div class="panel-item">
+                          Webhooks — how they work, retry strategies, security
+                          with HMAC signatures
+                        </div>
+                        <div class="panel-item">
+                          Long Polling vs WebSockets vs SSE — real-time
+                          communication patterns
+                        </div>
+                        <div class="panel-item">
+                          API Gateways — what they do, rate limiting at the
+                          edge, authentication
+                        </div>
+                        <div class="panel-item">
+                          Sync vs Async communication — request-response vs
+                          event-driven, when to choose
+                        </div>
+                        <div class="panel-item">
+                          API documentation — OpenAPI/Swagger. Your API is only
+                          as good as its docs.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Depth checkpoint</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Why would you choose gRPC over REST? When would
+                          GraphQL hurt you?
+                        </div>
+                        <div class="panel-item">
+                          What does idempotent mean and why does a payment API
+                          need it?
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Can explain REST vs gRPC vs GraphQL tradeoffs.
+                        Understands idempotency with real examples.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 3 -->
+          <div class="graph-phase">
+            <div class="phase-spine">
+              <div class="spine-dot p3"></div>
+              <div class="spine-line"></div>
+            </div>
+            <div class="phase-content">
+              <div class="phase-label p3">Phase 03 · 10 weeks</div>
+              <div class="phase-name">Java & OOP Discipline</div>
+              <div class="phase-duration">
+                HTTP Server · Spring Boot · SOLID · Design Patterns · DSA
+              </div>
+              <div class="node-grid">
+                <div class="node active-node p3" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">HTTP Server from Scratch</div>
+                  <div class="node-sub">
+                    TCP · HTTP Parsing · State Machines · Threading
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">The project</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          <strong
+                            >Build a working HTTP/1.1 server from scratch in
+                            Java</strong
+                          >
+                          — no frameworks, raw TCP sockets
+                        </div>
+                        <div class="panel-item">
+                          Learn Java through building: classes, interfaces,
+                          enums, generics, collections — all applied
+                        </div>
+                        <div class="panel-item">
+                          TCP fundamentals — sockets, 3-way handshake, byte
+                          streams, chunked reads
+                        </div>
+                        <div class="panel-item">
+                          HTTP request parsing — request line, headers, body
+                          using a state machine
+                        </div>
+                        <div class="panel-item">
+                          HTTP response writing — status → headers → body
+                          enforced by a Writer state machine
+                        </div>
+                        <div class="panel-item">
+                          Concurrency vs Parallelism — one thread per
+                          connection, why it doesn't scale, thread pools
+                        </div>
+                        <div class="panel-item">
+                          SOLID in practice — Server handles connections,
+                          Handler handles routes (Single Responsibility)
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Depth checkpoint</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Why does TCP give bytes in chunks? How does your
+                          parser handle partial reads?
+                        </div>
+                        <div class="panel-item">
+                          Trace the full journey: URL typed → DNS → TCP
+                          handshake → HTTP request → your server → response
+                        </div>
+                        <div class="panel-item">
+                          Why does the Writer enforce status → headers → body
+                          order with a state machine?
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Resource</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Guide: github.com/viralcodex/http-server — ~500 lines
+                          total
+                        </div>
+                        <div class="panel-item">
+                          Video: boot.dev HTTP server course (ThePrimeagen)
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        HTTP server works end-to-end. Can explain TCP, parsing,
+                        state machines, and threading without AI.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node p3" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">Spring Boot</div>
+                  <div class="node-sub">
+                    Frameworks · DI · REST API · Java Ecosystem
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          <strong
+                            >Now you know what frameworks abstract away</strong
+                          >
+                          — you built the raw version first
+                        </div>
+                        <div class="panel-item">
+                          Spring Boot — annotations, controllers, services,
+                          repositories
+                        </div>
+                        <div class="panel-item">
+                          Dependency Injection — what it is, why Spring uses it
+                          everywhere
+                        </div>
+                        <div class="panel-item">
+                          Build a REST API in Spring Boot — same patterns as
+                          Node.js, different language
+                        </div>
+                        <div class="panel-item">
+                          Compare: what did Spring handle that you did manually
+                          in your HTTP server?
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Built a Spring Boot API. Can explain what the framework
+                        abstracts vs what you built manually.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node p3" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">SOLID Principles</div>
+                  <div class="node-sub">OOP Discipline · Real Examples</div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          <strong>S</strong> — Single Responsibility. Find
+                          violations in your own past code.
+                        </div>
+                        <div class="panel-item">
+                          <strong>O</strong> — Open/Closed. Extend without
+                          modifying.
+                        </div>
+                        <div class="panel-item">
+                          <strong>L</strong> — Liskov Substitution. Subtypes
+                          must behave correctly.
+                        </div>
+                        <div class="panel-item">
+                          <strong>I</strong> — Interface Segregation. No fat
+                          interfaces.
+                        </div>
+                        <div class="panel-item">
+                          <strong>D</strong> — Dependency Inversion. Depend on
+                          abstractions.
+                        </div>
+                        <div class="panel-item">
+                          For each: find an example in your own code first
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Can explain all 5 SOLID principles with real examples
+                        from my own code.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node p3" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">Design Patterns</div>
+                  <div class="node-sub">
+                    Singleton · Factory · Observer · Repository
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          <strong>Repository pattern</strong> — you already use
+                          this intuitively
+                        </div>
+                        <div class="panel-item">
+                          Factory — when object creation is complex
+                        </div>
+                        <div class="panel-item">
+                          Singleton — and why it can be dangerous
+                        </div>
+                        <div class="panel-item">
+                          Observer — event-driven systems (relates to your
+                          queues)
+                        </div>
+                        <div class="panel-item">
+                          Strategy — swappable algorithms
+                        </div>
+                        <div class="panel-item">
+                          Don't memorize. Understand the problem each solves.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Implemented 3 patterns in code. Can explain why each one
+                        exists.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node p3" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">DSA Basics</div>
+                  <div class="node-sub">
+                    Arrays · HashMaps · Recursion · LeetCode Easy
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to learn</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Arrays and strings — most interview problems start
+                          here
+                        </div>
+                        <div class="panel-item">
+                          HashMaps — your most powerful tool in interviews
+                        </div>
+                        <div class="panel-item">
+                          Linked lists — understand pointers conceptually
+                        </div>
+                        <div class="panel-item">
+                          Basic recursion — think in base cases
+                        </div>
+                        <div class="panel-item">
+                          <strong>2–3 LeetCode easy problems per week</strong> —
+                          explain solution aloud every time
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Solved 20+ easy problems. Can explain time/space
+                        complexity of each.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PHASE 4 -->
+          <div class="graph-phase">
+            <div class="phase-spine">
+              <div class="spine-dot p4"></div>
+            </div>
+            <div class="phase-content">
+              <div class="phase-label p4">Phase 04 · 6 weeks</div>
+              <div class="phase-name">Build Something Real</div>
+              <div class="phase-duration">
+                Capstone Project · Portfolio · Interview Ready
+              </div>
+              <div class="node-grid">
+                <div class="node active-node p4" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">System Design Doc</div>
+                  <div class="node-sub">
+                    Architecture first · Before any code
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to do</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Choose a project — fintech or agri-tech (your context)
+                        </div>
+                        <div class="panel-item">
+                          Write a full design document: architecture, data
+                          models, API contracts, tradeoffs
+                        </div>
+                        <div class="panel-item">
+                          <strong
+                            >Zero code until design is reviewed and approved by
+                            yourself</strong
+                          >
+                        </div>
+                        <div class="panel-item">
+                          This document is what you show in interviews
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Design document written. Architecture diagram done. Data
+                        models defined.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node p4" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">Capstone Build</div>
+                  <div class="node-sub">
+                    Everything applied · Node + PG + Redis + Queues
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">Requirements</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Node.js + TypeScript (strict) + PostgreSQL + Redis +
+                          BullMQ
+                        </div>
+                        <div class="panel-item">
+                          Tests written alongside code — not after
+                        </div>
+                        <div class="panel-item">
+                          Every architectural decision documented with a reason
+                          why
+                        </div>
+                        <div class="panel-item">
+                          <strong
+                            >README that reads like a design document</strong
+                          >
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Capstone on GitHub. Can walk through every file and
+                        every decision live.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node p4" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">Interview Prep</div>
+                  <div class="node-sub">
+                    Behavioral · Technical · Live Coding
+                  </div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">What to prepare</div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          Your story — CropScan → Bank of Africa → why Turntabl
+                        </div>
+                        <div class="panel-item">
+                          OOP and design pattern questions answered with your
+                          own code examples
+                        </div>
+                        <div class="panel-item">
+                          System design walkthrough of your capstone project
+                        </div>
+                        <div class="panel-item">
+                          <strong>Practice live coding aloud</strong> — explain
+                          every step as you type
+                        </div>
+                      </div>
+                    </div>
+                    <div class="panel-section">
+                      <div class="panel-section-title">Mark complete</div>
+                      <div
+                        class="panel-check"
+                        onclick="toggleCheck(event, this)"
+                      >
+                        <div class="panel-check-box">✓</div>
+                        Done 5+ mock interviews. Comfortable explaining
+                        everything without notes.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="node active-node p4" onclick="toggleNode(this)">
+                  <div class="node-status"></div>
+                  <div class="node-title">DevOps — Phase 5</div>
+                  <div class="node-sub">Your natural next step after this</div>
+                  <div class="node-panel">
+                    <div class="panel-section">
+                      <div class="panel-section-title">
+                        Why this comes after
+                      </div>
+                      <div class="panel-items">
+                        <div class="panel-item">
+                          By now you understand what you're deploying and why
+                          it's designed that way
+                        </div>
+                        <div class="panel-item">
+                          DevOps without deep backend knowledge is shallow —
+                          Dadson confirmed this
+                        </div>
+                        <div class="panel-item">
+                          <strong
+                            >Slightly Techie DevOps cohort will make complete
+                            sense at this point</strong
+                          >
+                        </div>
+                        <div class="panel-item">
+                          Docker, CI/CD, cloud — you'll understand what problem
+                          each tool solves
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- end graph-phases -->
+      </div>
+    </div>
+
+    <!-- ══════════════ WEEKLY VIEW ══════════════ -->
+    <div class="view" id="view-weekly">
+      <div class="weekly-view">
+        <div class="week-header">
+          <h2>Your Weekly Rhythm</h2>
+          <p>
+            Built around your real life — 7 to 5 job, long commute, 8–10
+            hrs/week available. Click each day to see what to do.
+          </p>
+        </div>
+
+        <div class="schedule-card">
+          <div class="schedule-card-header" onclick="toggleCard(this)">
+            <div class="sched-day">Mon – Thu</div>
+            <div class="sched-title">Review & Reinforce Only</div>
+            <div class="sched-time dim">~30 min</div>
+          </div>
+          <div class="schedule-card-body">
+            <div class="sched-tasks">
+              <div class="sched-task">
+                Re-read your notes from the weekend session — no new content
+              </div>
+              <div class="sched-task">
+                <strong>Small exercises only</strong> — one LeetCode easy (Phase
+                3+), or re-read one concept
+              </div>
+              <div class="sched-task">
+                Draw an architecture diagram from memory — no notes, no AI
+              </div>
+              <div class="sched-task">
+                The goal is consolidation, not progress. You're too drained for
+                new learning after a 7–5.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="schedule-card">
+          <div class="schedule-card-header" onclick="toggleCard(this)">
+            <div class="sched-day">Friday Eve</div>
+            <div class="sched-title">New Concept Session</div>
+            <div class="sched-time">2–3 hrs</div>
+          </div>
+          <div class="schedule-card-body">
+            <div class="sched-tasks">
+              <div class="sched-task">
+                You're decompressing from the week — use that energy before it
+                turns into doomscrolling
+              </div>
+              <div class="sched-task">
+                <strong>Introduce one new topic</strong> — read, watch,
+                understand the concept
+              </div>
+              <div class="sched-task">
+                Write down what confused you — these become your Saturday
+                questions
+              </div>
+              <div class="sched-task">
+                Don't try to build yet. Friday is for understanding, Saturday is
+                for building.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="schedule-card">
+          <div class="schedule-card-header" onclick="toggleCard(this)">
+            <div class="sched-day">Saturday AM</div>
+            <div class="sched-title">Primary Deep Work Session — SACRED</div>
+            <div class="sched-time">3–4 hrs</div>
+          </div>
+          <div class="schedule-card-body">
+            <div class="sched-tasks">
+              <div class="sched-task">
+                <strong
+                  >Before you touch your phone. Before you scroll. Laptop
+                  first.</strong
+                >
+              </div>
+              <div class="sched-task">
+                This is your most important weekly habit. Everything else
+                depends on this.
+              </div>
+              <div class="sched-task">
+                Build the concept you learned Friday — code it, break it, fix it
+              </div>
+              <div class="sched-task">
+                Apply the explain test: can you walk through what you built
+                without AI?
+              </div>
+              <div class="sched-task">
+                Last Saturday of the month — DevCongress. Go with something to
+                share.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="schedule-card">
+          <div class="schedule-card-header" onclick="toggleCard(this)">
+            <div class="sched-day">Sunday PM</div>
+            <div class="sched-title">Apply & Consolidate</div>
+            <div class="sched-time">2–3 hrs</div>
+          </div>
+          <div class="schedule-card-body">
+            <div class="sched-tasks">
+              <div class="sched-task">After church — afternoon is yours</div>
+              <div class="sched-task">
+                Extend what you built Saturday, or tackle one thing that
+                confused you
+              </div>
+              <div class="sched-task">
+                <strong>Write your weekly 3 sentences</strong> — what you built,
+                what you understood, what still confuses you
+              </div>
+              <div class="sched-task">
+                Post it somewhere public. X, a notes app, anywhere. Writing
+                forces clarity.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 32px">
+          <div
+            style="
+              font-family: &quot;Syne&quot;, sans-serif;
+              font-size: 18px;
+              font-weight: 700;
+              margin-bottom: 16px;
+            "
+          >
+            The Non-Negotiable Rules
+          </div>
+          <div class="rules-grid">
+            <div class="rule-card">
+              <div class="rule-icon">🔒</div>
+              <div class="rule-title">The Explain Test</div>
+              <div class="rule-body">
+                Before moving to the next topic, explain the current one
+                <strong>out loud, without AI.</strong> If you can't, you don't
+                know it yet. No exceptions.
+              </div>
+            </div>
+            <div class="rule-card">
+              <div class="rule-icon">🌅</div>
+              <div class="rule-title">Saturday Lock</div>
+              <div class="rule-body">
+                Laptop before phone. Every Saturday.
+                <strong>This single habit</strong> determines whether this
+                entire roadmap works or not.
+              </div>
+            </div>
+            <div class="rule-card">
+              <div class="rule-icon">🎤</div>
+              <div class="rule-title">DevCongress Rule</div>
+              <div class="rule-body">
+                Every last Saturday, show up with
+                <strong>something to share.</strong> Even if it's small. That
+                community is your built-in accountability.
+              </div>
+            </div>
+            <div class="rule-card">
+              <div class="rule-icon">✍️</div>
+              <div class="rule-title">Sunday 3 Sentences</div>
+              <div class="rule-body">
+                What you built. What you understood. What confused you.
+                <strong>Written down, every week.</strong> Publicly if possible.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ TRACKER VIEW ══════════════ -->
+    <div class="view" id="view-tracker">
+      <div class="tracker-view">
+        <div class="tracker-header">
+          <h2>Progress Tracker</h2>
+          <p>
+            Check a milestone only when you can explain it without AI. Not when
+            you've built it — when you truly understand it.
+          </p>
+        </div>
+
+        <div class="overall-progress">
+          <div class="op-label">
+            <div class="op-title">Overall Progress</div>
+            <div class="op-pct" id="op-pct">0%</div>
+          </div>
+          <div class="op-bar">
+            <div class="op-fill" id="op-fill" style="width: 0%"></div>
+          </div>
+          <div class="op-phases">
+            <div class="op-phase">
+              <div
+                class="op-phase-bar c1"
+                id="p1-bar"
+                style="opacity: 0.3"
+              ></div>
+              <div class="op-phase-label">Phase 1</div>
+              <div class="op-phase-count" id="p1-count">0/6</div>
+            </div>
+            <div class="op-phase">
+              <div
+                class="op-phase-bar c2"
+                id="p2-bar"
+                style="opacity: 0.3"
+              ></div>
+              <div class="op-phase-label">Phase 2</div>
+              <div class="op-phase-count" id="p2-count">0/5</div>
+            </div>
+            <div class="op-phase">
+              <div
+                class="op-phase-bar c3"
+                id="p3-bar"
+                style="opacity: 0.3"
+              ></div>
+              <div class="op-phase-label">Phase 3</div>
+              <div class="op-phase-count" id="p3-count">0/5</div>
+            </div>
+            <div class="op-phase">
+              <div
+                class="op-phase-bar c4"
+                id="p4-bar"
+                style="opacity: 0.3"
+              ></div>
+              <div class="op-phase-label">Phase 4</div>
+              <div class="op-phase-count" id="p4-count">0/3</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="milestone-group">
+          <div class="milestone-group-title">
+            Phase 1 — Solidify the Foundation
+          </div>
+          <div class="milestone" data-phase="1" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                TypeScript Strict — Contact API rebuilt
+              </div>
+              <div class="milestone-desc">
+                Can explain every type annotation and why strict mode matters
+                without looking it up
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="1" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                Refresh token strategy fully implemented
+              </div>
+              <div class="milestone-desc">
+                Can whiteboard the full auth flow from login to refresh to
+                logout to revocation
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="1" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                Validation, rate limiting, and security headers added
+              </div>
+              <div class="milestone-desc">
+                Zod schemas on all endpoints, Helmet configured, rate limiting
+                on auth routes
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="1" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                First tests written — controllers and middleware covered
+              </div>
+              <div class="milestone-desc">
+                Not for coverage percentage. For confidence that the code does
+                what you think it does.
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="1" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                Task API built with everything applied
+              </div>
+              <div class="milestone-desc">
+                Architecture whiteboard passed — drew full system from memory
+                with no notes
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="1" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                Git workflow mastered — meaningful commits and clean repos
+              </div>
+              <div class="milestone-desc">
+                Branching, PRs, conventional commits. All projects have proper
+                Git history and portfolio-ready READMEs.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="milestone-group">
+          <div class="milestone-group-title p2">
+            Phase 2 — Architecture & Systems
+          </div>
+          <div class="milestone" data-phase="2" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                PostgreSQL — Task API migrated, SQL understood deeply
+              </div>
+              <div class="milestone-desc">
+                Can explain ACID, indexing tradeoffs, and when NOT to use a
+                relational database
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="2" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                Redis caching implemented with invalidation strategy
+              </div>
+              <div class="milestone-desc">
+                Can explain what happens to the system if Redis goes down
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="2" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                Background job queue built with BullMQ
+              </div>
+              <div class="milestone-desc">
+                Can explain the full job lifecycle including failure, retry, and
+                dead letter queues
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="2" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                Designed 3 systems from scratch on paper
+              </div>
+              <div class="milestone-desc">
+                URL shortener, notification system, one of your own choosing.
+                CAP theorem explained with examples.
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="2" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                API Design & Protocols understood deeply
+              </div>
+              <div class="milestone-desc">
+                Can explain idempotency, REST vs gRPC vs GraphQL tradeoffs,
+                webhooks, and sync vs async patterns with real examples.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="milestone-group">
+          <div class="milestone-group-title p3">
+            Phase 3 — Java & OOP Discipline
+          </div>
+          <div class="milestone" data-phase="3" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                HTTP Server built from scratch in Java — ~500 lines
+              </div>
+              <div class="milestone-desc">
+                Can explain TCP, HTTP parsing state machine, threading model,
+                and request/response lifecycle without AI.
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="3" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                Spring Boot API built — understands what frameworks abstract
+              </div>
+              <div class="milestone-desc">
+                Can compare manual HTTP server vs Spring Boot. Understands
+                dependency injection and Java ecosystem.
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="3" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                All 5 SOLID principles explained with own code examples
+              </div>
+              <div class="milestone-desc">
+                Found violations of each principle in your own past code — not
+                just theoretical definitions
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="3" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                3 design patterns implemented in code
+              </div>
+              <div class="milestone-desc">
+                Can explain the problem each pattern solves, not just what the
+                pattern is
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="3" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                20+ LeetCode easy problems solved with explanations
+              </div>
+              <div class="milestone-desc">
+                Every solution explained aloud including time and space
+                complexity
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="milestone-group">
+          <div class="milestone-group-title p4">
+            Phase 4 — Build Something Real
+          </div>
+          <div class="milestone" data-phase="4" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                Capstone design document written before any code
+              </div>
+              <div class="milestone-desc">
+                Architecture diagram, data models, API contracts, and documented
+                tradeoffs
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="4" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">
+                Capstone project on GitHub — fully documented
+              </div>
+              <div class="milestone-desc">
+                Can walk through every file and every architectural decision
+                live without notes
+              </div>
+            </div>
+          </div>
+          <div class="milestone" data-phase="4" onclick="toggleMilestone(this)">
+            <div class="milestone-box">✓</div>
+            <div class="milestone-content">
+              <div class="milestone-title">5+ mock interviews completed</div>
+              <div class="milestone-desc">
+                Comfortable with live coding, OOP questions, system design, and
+                behavioral questions using your real story
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="explain-test">
+          <div class="explain-test-title">The Golden Rule</div>
+          <p>
+            "Repetition is the mother of skills. Little actions done everyday
+            accumulate over time." —
+            <strong>Your own words. Hold yourself to them.</strong
+            ><br /><br />Check a milestone only when you can explain it
+            <strong
+              >out loud, without AI, like you're in a Turntabl
+              interview.</strong
+            >
+            Not when you've built it. When you truly own it.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // ── STORAGE (progress persists across page reloads) ──
+      const STORAGE_KEY = "kwame_roadmap_progress";
+
+      function saveState() {
+        const state = { milestones: [], checks: [] };
+        document.querySelectorAll(".milestone").forEach((m) => {
+          state.milestones.push(m.classList.contains("done"));
+        });
+        document.querySelectorAll(".panel-check").forEach((c) => {
+          state.checks.push(c.classList.contains("checked"));
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      }
+
+      function loadState() {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        try {
+          const state = JSON.parse(raw);
+          if (state.milestones) {
+            document.querySelectorAll(".milestone").forEach((m, i) => {
+              if (state.milestones[i]) m.classList.add("done");
+            });
+          }
+          if (state.checks) {
+            document.querySelectorAll(".panel-check").forEach((c, i) => {
+              if (state.checks[i]) {
+                c.classList.add("checked");
+                const node = c.closest(".node");
+                if (node) {
+                  node.classList.add("done");
+                  node.classList.remove("active-node", "p2", "p3", "p4");
+                }
+              }
+            });
+          }
+        } catch (e) {
+          /* corrupted state, ignore */
+        }
+      }
+
+      // ── VIEW SWITCHING ──
+      function switchView(name, btn) {
+        document
+          .querySelectorAll(".view")
+          .forEach((v) => v.classList.remove("active"));
+        document
+          .querySelectorAll(".nav-tab")
+          .forEach((t) => t.classList.remove("active"));
+        document.getElementById("view-" + name).classList.add("active");
+        btn.classList.add("active");
+      }
+
+      // ── NODE TOGGLE (graph view) ──
+      function toggleNode(node) {
+        const panel = node.querySelector(".node-panel");
+        if (!panel) return;
+        const isOpen = panel.classList.contains("open");
+        node
+          .closest(".node-grid")
+          .querySelectorAll(".node-panel")
+          .forEach((p) => p.classList.remove("open"));
+        if (!isOpen) panel.classList.add("open");
+      }
+
+      // ── SYNC: Skill Map checks ↔ Tracker milestones ──
+      function syncCheckToMilestone(checkEl) {
+        const checks = Array.from(document.querySelectorAll(".panel-check"));
+        const idx = checks.indexOf(checkEl);
+        if (idx === -1) return;
+        const milestones = document.querySelectorAll(".milestone");
+        if (idx < milestones.length) {
+          milestones[idx].classList.toggle(
+            "done",
+            checkEl.classList.contains("checked"),
+          );
+        }
+      }
+
+      function syncMilestoneToCheck(milestoneEl) {
+        const milestones = Array.from(document.querySelectorAll(".milestone"));
+        const idx = milestones.indexOf(milestoneEl);
+        if (idx === -1) return;
+        const checks = document.querySelectorAll(".panel-check");
+        if (idx < checks.length) {
+          const check = checks[idx];
+          const node = check.closest(".node");
+          const isDone = milestoneEl.classList.contains("done");
+          check.classList.toggle("checked", isDone);
+          if (node) {
+            if (isDone) {
+              node.classList.add("done");
+              node.classList.remove("active-node", "p2", "p3", "p4");
+            } else {
+              node.classList.remove("done");
+              const phase = node.closest(".phase-content");
+              const label = phase ? phase.querySelector(".phase-label") : null;
+              if (label) {
+                if (label.classList.contains("p2"))
+                  node.classList.add("active-node", "p2");
+                else if (label.classList.contains("p3"))
+                  node.classList.add("active-node", "p3");
+                else if (label.classList.contains("p4"))
+                  node.classList.add("active-node", "p4");
+                else node.classList.add("active-node");
+              }
+            }
+          }
+        }
+      }
+
+      // ── CHECK in node panel ──
+      function toggleCheck(e, el) {
+        e.stopPropagation();
+        el.classList.toggle("checked");
+        if (el.classList.contains("checked")) {
+          el.closest(".node").classList.add("done");
+          el.closest(".node").classList.remove("active-node", "p2", "p3", "p4");
+        } else {
+          const phase = el.closest(".phase-content");
+          const label = phase ? phase.querySelector(".phase-label") : null;
+          el.closest(".node").classList.remove("done");
+          if (label) {
+            if (label.classList.contains("p2"))
+              el.closest(".node").classList.add("active-node", "p2");
+            else if (label.classList.contains("p3"))
+              el.closest(".node").classList.add("active-node", "p3");
+            else if (label.classList.contains("p4"))
+              el.closest(".node").classList.add("active-node", "p4");
+            else el.closest(".node").classList.add("active-node");
+          }
+        }
+        syncCheckToMilestone(el);
+        updateGlobalProgress();
+        saveState();
+      }
+
+      // ── SCHEDULE CARD TOGGLE ──
+      function toggleCard(header) {
+        const body = header.nextElementSibling;
+        body.classList.toggle("open");
+      }
+
+      // ── MILESTONE TOGGLE (tracker view) ──
+      function toggleMilestone(el) {
+        el.classList.toggle("done");
+        syncMilestoneToCheck(el);
+        updateGlobalProgress();
+        saveState();
+      }
+
+      // ── PROGRESS ──
+      function updateGlobalProgress() {
+        const phases = [1, 2, 3, 4];
+        const totals = { 1: 6, 2: 5, 3: 5, 4: 3 };
+        let totalDone = 0,
+          totalAll = 0;
+
+        phases.forEach((p) => {
+          const items = document.querySelectorAll(
+            `.milestone[data-phase="${p}"].done`,
+          );
+          const done = items.length;
+          const total = totals[p];
+          totalDone += done;
+          totalAll += total;
+          const pct = total > 0 ? done / total : 0;
+          const bar = document.getElementById(`p${p}-bar`);
+          const count = document.getElementById(`p${p}-count`);
+          if (bar) bar.style.opacity = 0.3 + pct * 0.7;
+          if (count) count.textContent = `${done}/${total}`;
+        });
+
+        const overall =
+          totalAll > 0 ? Math.round((totalDone / totalAll) * 100) : 0;
+        document.getElementById("op-pct").textContent = overall + "%";
+        document.getElementById("op-fill").style.width = overall + "%";
+        document.getElementById("nav-pct").textContent = overall + "%";
+        document.getElementById("nav-fill").style.width = overall + "%";
+      }
+
+      // ── INIT ──
+      loadState();
+      updateGlobalProgress();
+    </script>
+  </body>
+</html>
