@@ -8,808 +8,10 @@
       href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap"
       rel="stylesheet"
     />
-    <style>
-      :root {
-        --bg: #080810;
-        --surface: #0f0f1a;
-        --surface2: #14141f;
-        --border: #1a1a2e;
-        --border2: #222235;
-        --p1: #f97316;
-        --p2: #3b82f6;
-        --p3: #10b981;
-        --p4: #8b5cf6;
-        --done: #10b981;
-        --text: #e2e8f0;
-        --muted: #64748b;
-        --dim: #94a3b8;
-      }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        background: var(--bg);
-        color: var(--text);
-        font-family: "Inter", sans-serif;
-        min-height: 100vh;
-      }
-
-      /* ── TOP NAV ── */
-      .nav {
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        background: rgba(8, 8, 16, 0.92);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--border);
-        padding: 0 24px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        height: 56px;
-      }
-      .nav-brand {
-        font-family: "Syne", sans-serif;
-        font-weight: 800;
-        font-size: 16px;
-        letter-spacing: -0.02em;
-      }
-      .nav-brand span {
-        color: var(--p1);
-      }
-      .nav-tabs {
-        display: flex;
-        gap: 4px;
-      }
-      .nav-tab {
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 11px;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        padding: 6px 14px;
-        border-radius: 6px;
-        border: 1px solid transparent;
-        cursor: pointer;
-        transition: all 0.2s;
-        color: var(--muted);
-        background: transparent;
-      }
-      .nav-tab.active {
-        color: var(--text);
-        background: var(--surface2);
-        border-color: var(--border2);
-      }
-      .nav-tab:hover:not(.active) {
-        color: var(--dim);
-      }
-      .nav-progress {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-      .nav-pct {
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 12px;
-        color: var(--p1);
-      }
-      .nav-bar {
-        width: 100px;
-        height: 3px;
-        background: var(--border2);
-        border-radius: 2px;
-        overflow: hidden;
-      }
-      .nav-bar-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--p1), var(--p2));
-        transition: width 0.4s ease;
-        width: 0%;
-      }
-
-      /* ── VIEWS ── */
-      .view {
-        display: none;
-      }
-      .view.active {
-        display: block;
-      }
-
-      /* ══════════════════════════════════
-   GRAPH VIEW
-══════════════════════════════════ */
-      .graph-view {
-        padding: 40px 24px 80px;
-        max-width: 1000px;
-        margin: 0 auto;
-      }
-
-      .graph-header {
-        margin-bottom: 48px;
-      }
-      .graph-header h1 {
-        font-family: "Syne", sans-serif;
-        font-size: clamp(28px, 5vw, 42px);
-        font-weight: 800;
-        letter-spacing: -0.02em;
-        margin-bottom: 8px;
-      }
-      .graph-header h1 span {
-        color: var(--p1);
-      }
-      .graph-header p {
-        font-size: 14px;
-        color: var(--muted);
-      }
-
-      /* Phase column layout */
-      .graph-phases {
-        display: flex;
-        flex-direction: column;
-        gap: 0;
-      }
-
-      .graph-phase {
-        display: flex;
-        gap: 0;
-        align-items: flex-start;
-      }
-
-      .phase-spine {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 40px;
-        flex-shrink: 0;
-        padding-top: 20px;
-      }
-      .spine-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        border: 2px solid var(--p1);
-        background: var(--bg);
-        flex-shrink: 0;
-        position: relative;
-        z-index: 2;
-      }
-      .spine-dot.p2 {
-        border-color: var(--p2);
-      }
-      .spine-dot.p3 {
-        border-color: var(--p3);
-      }
-      .spine-dot.p4 {
-        border-color: var(--p4);
-      }
-      .spine-line {
-        width: 1px;
-        flex: 1;
-        min-height: 40px;
-        background: linear-gradient(to bottom, var(--border2), transparent);
-        margin-top: 4px;
-      }
-
-      .phase-content {
-        flex: 1;
-        padding-bottom: 48px;
-      }
-
-      .phase-label {
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 10px;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--p1);
-        margin-bottom: 12px;
-        padding-top: 14px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .phase-label.p2 {
-        color: var(--p2);
-      }
-      .phase-label.p3 {
-        color: var(--p3);
-      }
-      .phase-label.p4 {
-        color: var(--p4);
-      }
-      .phase-label::after {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: var(--border);
-      }
-
-      .phase-name {
-        font-family: "Syne", sans-serif;
-        font-size: 20px;
-        font-weight: 700;
-        margin-bottom: 6px;
-      }
-      .phase-duration {
-        font-size: 12px;
-        color: var(--muted);
-        margin-bottom: 20px;
-      }
-
-      /* Node grid */
-      .node-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-
-      .node {
-        background: var(--surface);
-        border: 1px solid var(--border2);
-        border-radius: 10px;
-        padding: 12px 16px;
-        cursor: pointer;
-        transition: all 0.2s;
-        position: relative;
-        min-width: 160px;
-        user-select: none;
-      }
-      .node:hover {
-        border-color: var(--muted);
-        transform: translateY(-1px);
-      }
-      .node.done {
-        border-color: var(--done);
-        background: rgba(16, 185, 129, 0.04);
-      }
-      .node.active-node {
-        border-color: var(--p1);
-        background: rgba(249, 115, 22, 0.05);
-      }
-      .node.active-node.p2 {
-        border-color: var(--p2);
-        background: rgba(59, 130, 246, 0.05);
-      }
-      .node.active-node.p3 {
-        border-color: var(--p3);
-        background: rgba(16, 185, 129, 0.05);
-      }
-      .node.active-node.p4 {
-        border-color: var(--p4);
-        background: rgba(139, 92, 246, 0.05);
-      }
-
-      .node-status {
-        position: absolute;
-        top: 8px;
-        right: 8px;
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: var(--border2);
-      }
-      .node.done .node-status {
-        background: var(--done);
-      }
-      .node.active-node .node-status {
-        background: var(--p1);
-        box-shadow: 0 0 6px var(--p1);
-      }
-      .node.active-node.p2 .node-status {
-        background: var(--p2);
-        box-shadow: 0 0 6px var(--p2);
-      }
-      .node.active-node.p3 .node-status {
-        background: var(--p3);
-        box-shadow: 0 0 6px var(--p3);
-      }
-      .node.active-node.p4 .node-status {
-        background: var(--p4);
-        box-shadow: 0 0 6px var(--p4);
-      }
-
-      .node-title {
-        font-size: 13px;
-        font-weight: 600;
-        margin-bottom: 3px;
-        padding-right: 14px;
-      }
-      .node-sub {
-        font-size: 11px;
-        color: var(--muted);
-        line-height: 1.4;
-      }
-
-      /* Node detail panel */
-      .node-panel {
-        display: none;
-        margin-top: 8px;
-        background: var(--surface2);
-        border: 1px solid var(--border2);
-        border-radius: 10px;
-        padding: 16px 20px;
-        width: 100%;
-      }
-      .node-panel.open {
-        display: block;
-        animation: slideDown 0.2s ease;
-      }
-      @keyframes slideDown {
-        from {
-          opacity: 0;
-          transform: translateY(-6px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .panel-section {
-        margin-bottom: 14px;
-      }
-      .panel-section:last-child {
-        margin-bottom: 0;
-      }
-      .panel-section-title {
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 10px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--muted);
-        margin-bottom: 8px;
-      }
-      .panel-items {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-      }
-      .panel-item {
-        font-size: 12px;
-        color: var(--dim);
-        line-height: 1.5;
-        padding-left: 14px;
-        position: relative;
-      }
-      .panel-item::before {
-        content: "→";
-        position: absolute;
-        left: 0;
-        color: var(--p1);
-        font-size: 10px;
-        top: 1px;
-      }
-      .panel-item strong {
-        color: var(--text);
-        font-weight: 500;
-      }
-
-      .panel-check {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 8px 10px;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 6px;
-        cursor: pointer;
-        transition: all 0.15s;
-        font-size: 12px;
-        color: var(--dim);
-      }
-      .panel-check:hover {
-        border-color: var(--muted);
-        color: var(--text);
-      }
-      .panel-check.checked {
-        border-color: var(--done);
-        color: var(--text);
-        background: rgba(16, 185, 129, 0.04);
-      }
-      .panel-check-box {
-        width: 16px;
-        height: 16px;
-        border-radius: 4px;
-        border: 1.5px solid var(--muted);
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 10px;
-        transition: all 0.15s;
-      }
-      .panel-check.checked .panel-check-box {
-        background: var(--done);
-        border-color: var(--done);
-        color: #000;
-      }
-
-      /* ══════════════════════════════════
-   WEEKLY VIEW
-══════════════════════════════════ */
-      .weekly-view {
-        padding: 40px 24px 80px;
-        max-width: 860px;
-        margin: 0 auto;
-      }
-
-      .week-header {
-        margin-bottom: 40px;
-      }
-      .week-header h2 {
-        font-family: "Syne", sans-serif;
-        font-size: 28px;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        margin-bottom: 6px;
-      }
-      .week-header p {
-        font-size: 14px;
-        color: var(--muted);
-      }
-
-      .schedule-card {
-        background: var(--surface);
-        border: 1px solid var(--border2);
-        border-radius: 12px;
-        overflow: hidden;
-        margin-bottom: 12px;
-      }
-      .schedule-card-header {
-        display: grid;
-        grid-template-columns: 80px 1fr auto;
-        align-items: center;
-        gap: 16px;
-        padding: 16px 20px;
-        cursor: pointer;
-        transition: background 0.15s;
-      }
-      .schedule-card-header:hover {
-        background: var(--surface2);
-      }
-
-      .sched-day {
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 11px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--muted);
-      }
-      .sched-title {
-        font-size: 14px;
-        font-weight: 500;
-      }
-      .sched-time {
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 11px;
-        color: var(--p1);
-        background: rgba(249, 115, 22, 0.08);
-        padding: 3px 10px;
-        border-radius: 20px;
-        white-space: nowrap;
-      }
-      .sched-time.dim {
-        color: var(--muted);
-        background: var(--surface2);
-      }
-
-      .schedule-card-body {
-        display: none;
-        padding: 0 20px 16px;
-        border-top: 1px solid var(--border);
-      }
-      .schedule-card-body.open {
-        display: block;
-      }
-      .sched-tasks {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-        margin-top: 12px;
-      }
-      .sched-task {
-        font-size: 13px;
-        color: var(--dim);
-        padding-left: 16px;
-        position: relative;
-        line-height: 1.6;
-      }
-      .sched-task::before {
-        content: "·";
-        position: absolute;
-        left: 4px;
-        color: var(--p1);
-      }
-      .sched-task strong {
-        color: var(--text);
-        font-weight: 500;
-      }
-
-      /* Rules */
-      .rules-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-        margin-top: 24px;
-      }
-      .rule-card {
-        background: var(--surface);
-        border: 1px solid var(--border2);
-        border-radius: 10px;
-        padding: 18px 20px;
-      }
-      .rule-icon {
-        font-size: 18px;
-        margin-bottom: 8px;
-      }
-      .rule-title {
-        font-family: "Syne", sans-serif;
-        font-size: 14px;
-        font-weight: 700;
-        margin-bottom: 6px;
-      }
-      .rule-body {
-        font-size: 12px;
-        color: var(--muted);
-        line-height: 1.7;
-      }
-      .rule-body strong {
-        color: var(--dim);
-      }
-
-      /* ══════════════════════════════════
-   TRACKER VIEW
-══════════════════════════════════ */
-      .tracker-view {
-        padding: 40px 24px 80px;
-        max-width: 760px;
-        margin: 0 auto;
-      }
-
-      .tracker-header {
-        margin-bottom: 32px;
-      }
-      .tracker-header h2 {
-        font-family: "Syne", sans-serif;
-        font-size: 28px;
-        font-weight: 700;
-        letter-spacing: -0.02em;
-        margin-bottom: 6px;
-      }
-      .tracker-header p {
-        font-size: 14px;
-        color: var(--muted);
-      }
-
-      .milestone-group {
-        margin-bottom: 32px;
-      }
-      .milestone-group-title {
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 10px;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--p1);
-        margin-bottom: 12px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .milestone-group-title.p2 {
-        color: var(--p2);
-      }
-      .milestone-group-title.p3 {
-        color: var(--p3);
-      }
-      .milestone-group-title.p4 {
-        color: var(--p4);
-      }
-      .milestone-group-title::after {
-        content: "";
-        flex: 1;
-        height: 1px;
-        background: var(--border);
-      }
-
-      .milestone {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        padding: 14px 16px;
-        background: var(--surface);
-        border: 1px solid var(--border2);
-        border-radius: 10px;
-        margin-bottom: 8px;
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      .milestone:hover {
-        border-color: var(--muted);
-      }
-      .milestone.done {
-        border-color: var(--done);
-        background: rgba(16, 185, 129, 0.03);
-      }
-
-      .milestone-box {
-        width: 20px;
-        height: 20px;
-        border-radius: 5px;
-        border: 1.5px solid var(--muted);
-        flex-shrink: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 11px;
-        transition: all 0.2s;
-        margin-top: 1px;
-      }
-      .milestone.done .milestone-box {
-        background: var(--done);
-        border-color: var(--done);
-        color: #000;
-      }
-
-      .milestone-content {
-        flex: 1;
-      }
-      .milestone-title {
-        font-size: 13px;
-        font-weight: 600;
-        margin-bottom: 3px;
-      }
-      .milestone.done .milestone-title {
-        color: var(--muted);
-        text-decoration: line-through;
-      }
-      .milestone-desc {
-        font-size: 12px;
-        color: var(--muted);
-        line-height: 1.5;
-      }
-
-      .explain-test {
-        background: rgba(249, 115, 22, 0.04);
-        border: 1px solid rgba(249, 115, 22, 0.15);
-        border-radius: 10px;
-        padding: 16px 20px;
-        margin-top: 24px;
-      }
-      .explain-test-title {
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 10px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--p1);
-        margin-bottom: 8px;
-      }
-      .explain-test p {
-        font-size: 13px;
-        color: var(--dim);
-        line-height: 1.7;
-      }
-      .explain-test p strong {
-        color: var(--text);
-      }
-
-      /* overall progress */
-      .overall-progress {
-        background: var(--surface);
-        border: 1px solid var(--border2);
-        border-radius: 12px;
-        padding: 24px;
-        margin-bottom: 32px;
-      }
-      .op-label {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-      }
-      .op-title {
-        font-family: "Syne", sans-serif;
-        font-size: 16px;
-        font-weight: 700;
-      }
-      .op-pct {
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 14px;
-        color: var(--p1);
-      }
-      .op-bar {
-        height: 6px;
-        background: var(--border2);
-        border-radius: 3px;
-        overflow: hidden;
-      }
-      .op-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--p1), var(--p2), var(--p3));
-        transition: width 0.4s ease;
-      }
-      .op-phases {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 8px;
-        margin-top: 16px;
-      }
-      .op-phase {
-        text-align: center;
-      }
-      .op-phase-bar {
-        height: 3px;
-        border-radius: 2px;
-        margin-bottom: 6px;
-      }
-      .op-phase-bar.c1 {
-        background: var(--p1);
-      }
-      .op-phase-bar.c2 {
-        background: var(--p2);
-      }
-      .op-phase-bar.c3 {
-        background: var(--p3);
-      }
-      .op-phase-bar.c4 {
-        background: var(--p4);
-      }
-      .op-phase-label {
-        font-family: "IBM Plex Mono", monospace;
-        font-size: 9px;
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: var(--muted);
-      }
-      .op-phase-count {
-        font-size: 12px;
-        font-weight: 600;
-        margin-top: 2px;
-      }
-
-      .rule-card:last-child:nth-child(odd) {
-        grid-column: 1 / -1;
-      }
-
-      @media (max-width: 600px) {
-        .rules-grid {
-          grid-template-columns: 1fr;
-        }
-        .op-phases {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        .node {
-          min-width: 140px;
-        }
-      }
-
-      .node.future-node {
-        opacity: 0.5;
-        border-style: dashed;
-        cursor: default;
-      }
-      .node.future-node:hover {
-        transform: none;
-        border-color: var(--border2);
-      }
-
-      @keyframes fadeUp {
-        from {
-          opacity: 0;
-          transform: translateY(16px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-      .graph-phase,
-      .schedule-card,
-      .milestone,
-      .rule-card {
-        animation: fadeUp 0.4s ease both;
-      }
-    </style>
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
+    <!-- ══════════════ NAVIGATION ══════════════ -->
     <nav class="nav">
       <div class="nav-brand">Kwame <span>/ Backend Roadmap</span></div>
       <div class="nav-tabs">
@@ -831,7 +33,7 @@
       </div>
     </nav>
 
-    <!-- ══════════════ GRAPH VIEW ══════════════ -->
+    <!-- ══════════════ GRAPH VIEW — SKILL MAP ══════════════ -->
     <div class="view active" id="view-graph">
       <div class="graph-view">
         <div class="graph-header">
@@ -843,7 +45,7 @@
         </div>
 
         <div class="graph-phases">
-          <!-- PHASE 1 -->
+          <!-- ═══ PHASE 1 — Foundation ═══ -->
           <div class="graph-phase">
             <div class="phase-spine">
               <div class="spine-dot"></div>
@@ -856,7 +58,9 @@
                 Node.js · TypeScript · Auth · Security · Testing · Git — Go
                 deeper, not wider
               </div>
+
               <div class="node-grid">
+                <!-- TypeScript -->
                 <div class="node active-node" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">TypeScript (Strict)</div>
@@ -912,6 +116,7 @@
                   </div>
                 </div>
 
+                <!-- Auth -->
                 <div class="node active-node" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">Auth Done Right</div>
@@ -966,6 +171,7 @@
                   </div>
                 </div>
 
+                <!-- Input Validation -->
                 <div class="node active-node" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">Input Validation</div>
@@ -1015,6 +221,7 @@
                   </div>
                 </div>
 
+                <!-- Testing -->
                 <div class="node active-node" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">Testing</div>
@@ -1063,6 +270,7 @@
                   </div>
                 </div>
 
+                <!-- Task API -->
                 <div class="node active-node" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">Task API Project</div>
@@ -1105,9 +313,10 @@
                   </div>
                 </div>
 
+                <!-- Git -->
                 <div class="node active-node" onclick="toggleNode(this)">
                   <div class="node-status"></div>
-                  <div class="node-title">Git & Workflow</div>
+                  <div class="node-title">Git &amp; Workflow</div>
                   <div class="node-sub">Branching · PRs · Commits · README</div>
                   <div class="node-panel">
                     <div class="panel-section">
@@ -1158,6 +367,7 @@
                   </div>
                 </div>
 
+                <!-- Web Security -->
                 <div class="node active-node" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">Web Security</div>
@@ -1167,8 +377,8 @@
                       <div class="panel-section-title">What to learn</div>
                       <div class="panel-items">
                         <div class="panel-item">
-                          <strong>HTTPS & TLS</strong> — how encryption works,
-                          why HTTP is dangerous, certificates
+                          <strong>HTTPS &amp; TLS</strong> — how encryption
+                          works, why HTTP is dangerous, certificates
                         </div>
                         <div class="panel-item">
                           CORS — what it protects, preflight requests, common
@@ -1220,81 +430,40 @@
                 </div>
               </div>
 
-              <div
-                style="
-                  margin-top: 16px;
-                  background: rgba(249, 115, 22, 0.03);
-                  border: 1px solid rgba(249, 115, 22, 0.12);
-                  border-radius: 10px;
-                  padding: 16px 20px;
-                "
-              >
-                <div
-                  style="
-                    font-family: &quot;IBM Plex Mono&quot;, monospace;
-                    font-size: 10px;
-                    letter-spacing: 0.15em;
-                    text-transform: uppercase;
-                    color: var(--p1);
-                    margin-bottom: 10px;
-                  "
-                >
+              <!-- Phase 1 Projects -->
+              <div class="project-ladder p1">
+                <div class="project-ladder-title">
                   🔨 Phase 1 Projects — build these
                 </div>
-                <div
-                  style="
-                    display: flex;
-                    flex-direction: column;
-                    gap: 8px;
-                    font-size: 12px;
-                    color: var(--dim);
-                    line-height: 1.6;
-                  "
-                >
-                  <div style="padding-left: 20px; position: relative">
-                    <span style="position: absolute; left: 0; color: var(--p1)"
-                      >①</span
-                    >
-                    <strong style="color: var(--text)"
-                      >Expense Tracker CLI</strong
-                    >
-                    — Manage finances from the terminal. Practice TypeScript
-                    strict mode & file I/O.
+                <div class="project-ladder-list">
+                  <div class="project-ladder-item">
+                    <span class="num">①</span>
+                    <strong>Expense Tracker CLI</strong> — Manage finances from
+                    the terminal. Practice TypeScript strict mode &amp; file
+                    I/O.
                   </div>
-                  <div style="padding-left: 20px; position: relative">
-                    <span style="position: absolute; left: 0; color: var(--p1)"
-                      >②</span
-                    >
-                    <strong style="color: var(--text)">Task Tracker API</strong>
-                    — Your main project. Full CRUD, auth, validation, testing,
-                    pagination.
+                  <div class="project-ladder-item">
+                    <span class="num">②</span>
+                    <strong>Task Tracker API</strong> — Your main project. Full
+                    CRUD, auth, validation, testing, pagination.
                   </div>
-                  <div style="padding-left: 20px; position: relative">
-                    <span style="position: absolute; left: 0; color: var(--p1)"
-                      >③</span
-                    >
-                    <strong style="color: var(--text)"
-                      >Weather API Wrapper</strong
-                    >
-                    — Fetch from a third-party API, transform data, handle
-                    errors gracefully.
+                  <div class="project-ladder-item">
+                    <span class="num">③</span>
+                    <strong>Weather API Wrapper</strong> — Fetch from a
+                    third-party API, transform data, handle errors gracefully.
                   </div>
-                  <div style="padding-left: 20px; position: relative">
-                    <span style="position: absolute; left: 0; color: var(--p1)"
-                      >④</span
-                    >
-                    <strong style="color: var(--text)"
-                      >Blogging Platform API</strong
-                    >
-                    <span style="color: var(--muted)">(stretch)</span> — Users,
-                    posts, comments, tags. Apply everything from this phase.
+                  <div class="project-ladder-item">
+                    <span class="num">④</span>
+                    <strong>Blogging Platform API</strong>
+                    <span class="stretch">(stretch)</span> — Users, posts,
+                    comments, tags. Apply everything from this phase.
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- PHASE 2 -->
+          <!-- ═══ PHASE 2 — Architecture ═══ -->
           <div class="graph-phase">
             <div class="phase-spine">
               <div class="spine-dot p2"></div>
@@ -1302,12 +471,14 @@
             </div>
             <div class="phase-content">
               <div class="phase-label p2">Phase 02 · 10 weeks</div>
-              <div class="phase-name">Backend Architecture & Systems</div>
+              <div class="phase-name">Backend Architecture &amp; Systems</div>
               <div class="phase-duration">
                 Databases · Caching · Queues · Docker · System Design · API
                 Protocols
               </div>
+
               <div class="node-grid">
+                <!-- PostgreSQL -->
                 <div class="node active-node p2" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">PostgreSQL</div>
@@ -1380,9 +551,10 @@
                   </div>
                 </div>
 
+                <!-- Redis -->
                 <div class="node active-node p2" onclick="toggleNode(this)">
                   <div class="node-status"></div>
-                  <div class="node-title">Redis & Caching</div>
+                  <div class="node-title">Redis &amp; Caching</div>
                   <div class="node-sub">
                     Cache Strategies · Invalidation · Sessions
                   </div>
@@ -1432,6 +604,7 @@
                   </div>
                 </div>
 
+                <!-- Message Queues -->
                 <div class="node active-node p2" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">Message Queues</div>
@@ -1488,6 +661,7 @@
                   </div>
                 </div>
 
+                <!-- System Design -->
                 <div class="node active-node p2" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">System Design</div>
@@ -1509,8 +683,8 @@
                           connections
                         </div>
                         <div class="panel-item">
-                          <strong>Availability & Fault Tolerance</strong> — what
-                          "five nines" means, graceful degradation, circuit
+                          <strong>Availability &amp; Fault Tolerance</strong> —
+                          what "five nines" means, graceful degradation, circuit
                           breakers
                         </div>
                         <div class="panel-item">
@@ -1526,8 +700,8 @@
                           origin
                         </div>
                         <div class="panel-item">
-                          Data Sharding & Partitioning — horizontal splitting,
-                          when and why
+                          Data Sharding &amp; Partitioning — horizontal
+                          splitting, when and why
                         </div>
                         <div class="panel-item">
                           <strong>Practice designing</strong> — URL shortener,
@@ -1564,9 +738,10 @@
                   </div>
                 </div>
 
+                <!-- API Design -->
                 <div class="node active-node p2" onclick="toggleNode(this)">
                   <div class="node-status"></div>
-                  <div class="node-title">API Design & Protocols</div>
+                  <div class="node-title">API Design &amp; Protocols</div>
                   <div class="node-sub">
                     Idempotency · gRPC · GraphQL · Webhooks
                   </div>
@@ -1631,6 +806,7 @@
                   </div>
                 </div>
 
+                <!-- Docker -->
                 <div class="node active-node p2" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">Docker Basics</div>
@@ -1709,83 +885,39 @@
                 </div>
               </div>
 
-              <div
-                style="
-                  margin-top: 16px;
-                  background: rgba(59, 130, 246, 0.03);
-                  border: 1px solid rgba(59, 130, 246, 0.12);
-                  border-radius: 10px;
-                  padding: 16px 20px;
-                "
-              >
-                <div
-                  style="
-                    font-family: &quot;IBM Plex Mono&quot;, monospace;
-                    font-size: 10px;
-                    letter-spacing: 0.15em;
-                    text-transform: uppercase;
-                    color: var(--p2);
-                    margin-bottom: 10px;
-                  "
-                >
+              <!-- Phase 2 Projects -->
+              <div class="project-ladder p2">
+                <div class="project-ladder-title">
                   🔨 Phase 2 Projects — build these
                 </div>
-                <div
-                  style="
-                    display: flex;
-                    flex-direction: column;
-                    gap: 8px;
-                    font-size: 12px;
-                    color: var(--dim);
-                    line-height: 1.6;
-                  "
-                >
-                  <div style="padding-left: 20px; position: relative">
-                    <span style="position: absolute; left: 0; color: var(--p2)"
-                      >①</span
-                    >
-                    <strong style="color: var(--text)"
-                      >URL Shortening Service</strong
-                    >
-                    — PostgreSQL + Redis caching + analytics. Classic system
-                    design problem made real.
+                <div class="project-ladder-list">
+                  <div class="project-ladder-item">
+                    <span class="num">①</span>
+                    <strong>URL Shortening Service</strong> — PostgreSQL + Redis
+                    caching + analytics. Classic system design problem made
+                    real.
                   </div>
-                  <div style="padding-left: 20px; position: relative">
-                    <span style="position: absolute; left: 0; color: var(--p2)"
-                      >②</span
-                    >
-                    <strong style="color: var(--text)"
-                      >Caching Proxy Server</strong
-                    >
-                    — Sits between client and origin. Deep Redis + HTTP
-                    understanding.
+                  <div class="project-ladder-item">
+                    <span class="num">②</span>
+                    <strong>Caching Proxy Server</strong> — Sits between client
+                    and origin. Deep Redis + HTTP understanding.
                   </div>
-                  <div style="padding-left: 20px; position: relative">
-                    <span style="position: absolute; left: 0; color: var(--p2)"
-                      >③</span
-                    >
-                    <strong style="color: var(--text)"
-                      >Image Processing Service</strong
-                    >
-                    — Upload, resize, convert via API. Queues + async processing
-                    in action.
+                  <div class="project-ladder-item">
+                    <span class="num">③</span>
+                    <strong>Image Processing Service</strong> — Upload, resize,
+                    convert via API. Queues + async processing in action.
                   </div>
-                  <div style="padding-left: 20px; position: relative">
-                    <span style="position: absolute; left: 0; color: var(--p2)"
-                      >④</span
-                    >
-                    <strong style="color: var(--text)"
-                      >Multi-Container App</strong
-                    >
-                    — Docker Compose: API + PG + Redis + Worker. Your full stack
-                    in one command.
+                  <div class="project-ladder-item">
+                    <span class="num">④</span>
+                    <strong>Multi-Container App</strong> — Docker Compose: API +
+                    PG + Redis + Worker. Your full stack in one command.
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- PHASE 3 -->
+          <!-- ═══ PHASE 3 — Java & OOP ═══ -->
           <div class="graph-phase">
             <div class="phase-spine">
               <div class="spine-dot p3"></div>
@@ -1793,11 +925,13 @@
             </div>
             <div class="phase-content">
               <div class="phase-label p3">Phase 03 · 10 weeks</div>
-              <div class="phase-name">Java & OOP Discipline</div>
+              <div class="phase-name">Java &amp; OOP Discipline</div>
               <div class="phase-duration">
                 HTTP Server · Spring Boot · SOLID · Design Patterns · DSA
               </div>
+
               <div class="node-grid">
+                <!-- HTTP Server -->
                 <div class="node active-node p3" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">HTTP Server from Scratch</div>
@@ -1884,6 +1018,7 @@
                   </div>
                 </div>
 
+                <!-- Spring Boot -->
                 <div class="node active-node p3" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">Spring Boot</div>
@@ -1932,6 +1067,7 @@
                   </div>
                 </div>
 
+                <!-- SOLID -->
                 <div class="node active-node p3" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">SOLID Principles</div>
@@ -1979,6 +1115,7 @@
                   </div>
                 </div>
 
+                <!-- Design Patterns -->
                 <div class="node active-node p3" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">Design Patterns</div>
@@ -2039,6 +1176,7 @@
                   </div>
                 </div>
 
+                <!-- DSA -->
                 <div class="node active-node p3" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">DSA Basics</div>
@@ -2083,71 +1221,35 @@
                 </div>
               </div>
 
-              <div
-                style="
-                  margin-top: 16px;
-                  background: rgba(16, 185, 129, 0.03);
-                  border: 1px solid rgba(16, 185, 129, 0.12);
-                  border-radius: 10px;
-                  padding: 16px 20px;
-                "
-              >
-                <div
-                  style="
-                    font-family: &quot;IBM Plex Mono&quot;, monospace;
-                    font-size: 10px;
-                    letter-spacing: 0.15em;
-                    text-transform: uppercase;
-                    color: var(--p3);
-                    margin-bottom: 10px;
-                  "
-                >
+              <!-- Phase 3 Projects -->
+              <div class="project-ladder p3">
+                <div class="project-ladder-title">
                   🔨 Phase 3 Projects — build these
                 </div>
-                <div
-                  style="
-                    display: flex;
-                    flex-direction: column;
-                    gap: 8px;
-                    font-size: 12px;
-                    color: var(--dim);
-                    line-height: 1.6;
-                  "
-                >
-                  <div style="padding-left: 20px; position: relative">
-                    <span style="position: absolute; left: 0; color: var(--p3)"
-                      >①</span
-                    >
-                    <strong style="color: var(--text)"
-                      >HTTP Server from Scratch</strong
-                    >
-                    — Your main project. Raw TCP, HTTP parsing, threading — no
-                    frameworks.
+                <div class="project-ladder-list">
+                  <div class="project-ladder-item">
+                    <span class="num">①</span>
+                    <strong>HTTP Server from Scratch</strong> — Your main
+                    project. Raw TCP, HTTP parsing, threading — no frameworks.
                   </div>
-                  <div style="padding-left: 20px; position: relative">
-                    <span style="position: absolute; left: 0; color: var(--p3)"
-                      >②</span
-                    >
-                    <strong style="color: var(--text)">Broadcast Server</strong>
-                    — Multi-client TCP server. Clients connect and receive
-                    messages from others. Concurrency in action.
+                  <div class="project-ladder-item">
+                    <span class="num">②</span>
+                    <strong>Broadcast Server</strong> — Multi-client TCP server.
+                    Clients connect and receive messages from others.
+                    Concurrency in action.
                   </div>
-                  <div style="padding-left: 20px; position: relative">
-                    <span style="position: absolute; left: 0; color: var(--p3)"
-                      >③</span
-                    >
-                    <strong style="color: var(--text)"
-                      >Workout Tracker API (Spring Boot)</strong
-                    >
-                    — Users, exercises, sets, progress. Apply Spring Boot +
-                    SOLID + patterns.
+                  <div class="project-ladder-item">
+                    <span class="num">③</span>
+                    <strong>Workout Tracker API (Spring Boot)</strong> — Users,
+                    exercises, sets, progress. Apply Spring Boot + SOLID +
+                    patterns.
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- PHASE 4 -->
+          <!-- ═══ PHASE 4 — Capstone ═══ -->
           <div class="graph-phase">
             <div class="phase-spine">
               <div class="spine-dot p4"></div>
@@ -2158,7 +1260,9 @@
               <div class="phase-duration">
                 Capstone Project · Portfolio · Interview Ready
               </div>
+
               <div class="node-grid">
+                <!-- System Design Doc -->
                 <div class="node active-node p4" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">System Design Doc</div>
@@ -2216,6 +1320,7 @@
                   </div>
                 </div>
 
+                <!-- Capstone Build -->
                 <div class="node active-node p4" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">Capstone Build</div>
@@ -2285,6 +1390,7 @@
                   </div>
                 </div>
 
+                <!-- Interview Prep -->
                 <div class="node active-node p4" onclick="toggleNode(this)">
                   <div class="node-status"></div>
                   <div class="node-title">Interview Prep</div>
@@ -2325,13 +1431,14 @@
                   </div>
                 </div>
 
+                <!-- Future: CI/CD & Cloud -->
                 <div
                   class="node future-node"
                   onclick="toggleNode(this)"
                   title="Unlocks after you complete the roadmap"
                 >
                   <div class="node-status"></div>
-                  <div class="node-title">CI/CD & Cloud — Phase 5</div>
+                  <div class="node-title">CI/CD &amp; Cloud — Phase 5</div>
                   <div class="node-sub">
                     Your natural next step after this roadmap
                   </div>
@@ -2351,7 +1458,7 @@
                         </div>
                         <div class="panel-item">
                           Cloud platforms — AWS/GCP fundamentals, managed
-                          services, monitoring & observability
+                          services, monitoring &amp; observability
                         </div>
                         <div class="panel-item">
                           <strong
@@ -2369,73 +1476,34 @@
                 </div>
               </div>
 
-              <div
-                style="
-                  margin-top: 16px;
-                  background: rgba(139, 92, 246, 0.03);
-                  border: 1px solid rgba(139, 92, 246, 0.12);
-                  border-radius: 10px;
-                  padding: 16px 20px;
-                "
-              >
-                <div
-                  style="
-                    font-family: &quot;IBM Plex Mono&quot;, monospace;
-                    font-size: 10px;
-                    letter-spacing: 0.15em;
-                    text-transform: uppercase;
-                    color: var(--p4);
-                    margin-bottom: 10px;
-                  "
-                >
+              <!-- Phase 4 Capstone Ideas -->
+              <div class="project-ladder p4">
+                <div class="project-ladder-title">
                   🔨 Phase 4 Capstone Ideas
                 </div>
-                <div
-                  style="
-                    display: flex;
-                    flex-direction: column;
-                    gap: 8px;
-                    font-size: 12px;
-                    color: var(--dim);
-                    line-height: 1.6;
-                  "
-                >
-                  <div style="padding-left: 20px; position: relative">
-                    <span style="position: absolute; left: 0; color: var(--p4)"
-                      >①</span
-                    >
-                    <strong style="color: var(--text)"
-                      >E-Commerce Platform</strong
-                    >
-                    — Products, cart, checkout, payment integration. The
-                    ultimate backend project.
+                <div class="project-ladder-list">
+                  <div class="project-ladder-item">
+                    <span class="num">①</span>
+                    <strong>E-Commerce Platform</strong> — Products, cart,
+                    checkout, payment integration. The ultimate backend project.
                   </div>
-                  <div style="padding-left: 20px; position: relative">
-                    <span style="position: absolute; left: 0; color: var(--p4)"
-                      >②</span
-                    >
-                    <strong style="color: var(--text)"
-                      >Fintech API (Bank of Africa context)</strong
-                    >
-                    — Transfers, transaction history, fraud detection. Your
-                    domain knowledge is your edge.
+                  <div class="project-ladder-item">
+                    <span class="num">②</span>
+                    <strong>Fintech API (Bank of Africa context)</strong> —
+                    Transfers, transaction history, fraud detection. Your domain
+                    knowledge is your edge.
                   </div>
-                  <div style="padding-left: 20px; position: relative">
-                    <span style="position: absolute; left: 0; color: var(--p4)"
-                      >③</span
-                    >
-                    <strong style="color: var(--text)"
-                      >Markdown Note-taking App</strong
-                    >
-                    — Full-stack: API + real-time sync + search. Combines
-                    everything you've learned.
+                  <div class="project-ladder-item">
+                    <span class="num">③</span>
+                    <strong>Markdown Note-taking App</strong> — Full-stack: API
+                    + real-time sync + search. Combines everything you've
+                    learned.
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <!-- end graph-phases -->
       </div>
     </div>
 
@@ -2450,10 +1518,11 @@
           </p>
         </div>
 
+        <!-- Mon-Thu -->
         <div class="schedule-card">
           <div class="schedule-card-header" onclick="toggleCard(this)">
             <div class="sched-day">Mon – Thu</div>
-            <div class="sched-title">Review & Reinforce Only</div>
+            <div class="sched-title">Review &amp; Reinforce Only</div>
             <div class="sched-time dim">~30 min</div>
           </div>
           <div class="schedule-card-body">
@@ -2476,6 +1545,7 @@
           </div>
         </div>
 
+        <!-- Friday -->
         <div class="schedule-card">
           <div class="schedule-card-header" onclick="toggleCard(this)">
             <div class="sched-day">Friday Eve</div>
@@ -2504,6 +1574,7 @@
           </div>
         </div>
 
+        <!-- Saturday -->
         <div class="schedule-card">
           <div class="schedule-card-header" onclick="toggleCard(this)">
             <div class="sched-day">Saturday AM</div>
@@ -2537,10 +1608,11 @@
           </div>
         </div>
 
+        <!-- Sunday -->
         <div class="schedule-card">
           <div class="schedule-card-header" onclick="toggleCard(this)">
             <div class="sched-day">Sunday PM</div>
-            <div class="sched-title">Apply & Consolidate</div>
+            <div class="sched-title">Apply &amp; Consolidate</div>
             <div class="sched-time">2–3 hrs</div>
           </div>
           <div class="schedule-card-body">
@@ -2562,17 +1634,9 @@
           </div>
         </div>
 
-        <div style="margin-top: 32px">
-          <div
-            style="
-              font-family: &quot;Syne&quot;, sans-serif;
-              font-size: 18px;
-              font-weight: 700;
-              margin-bottom: 16px;
-            "
-          >
-            The Non-Negotiable Rules
-          </div>
+        <!-- Rules -->
+        <div class="rules-section">
+          <div class="section-heading">The Non-Negotiable Rules</div>
           <div class="rules-grid">
             <div class="rule-card">
               <div class="rule-icon">🔒</div>
@@ -2622,46 +1686,26 @@
           </div>
         </div>
 
-        <div style="margin-top: 32px">
-          <div
-            style="
-              font-family: &quot;Syne&quot;, sans-serif;
-              font-size: 18px;
-              font-weight: 700;
-              margin-bottom: 16px;
-            "
-          >
-            When You Stall — Recovery Protocol
-          </div>
-          <div
-            style="
-              background: rgba(59, 130, 246, 0.04);
-              border: 1px solid rgba(59, 130, 246, 0.15);
-              border-radius: 10px;
-              padding: 20px 24px;
-              font-size: 13px;
-              color: var(--dim);
-              line-height: 1.8;
-            "
-          >
-            <p
-              style="margin-bottom: 12px; color: var(--text); font-weight: 500"
-            >
+        <!-- Recovery Protocol -->
+        <div class="recovery-section">
+          <div class="section-heading">When You Stall — Recovery Protocol</div>
+          <div class="recovery-card">
+            <p class="recovery-intro">
               You will miss a Saturday. Maybe two. Maybe a whole month. This is
               not failure — it's expected. Here's how you come back:
             </p>
-            <p style="margin-bottom: 8px">
-              <strong style="color: var(--p2)">1. Don't restart.</strong> Open
-              your roadmap. Find the last thing you checked off. Start from the
-              next one. You didn't lose your progress.
+            <p>
+              <strong class="step">1. Don't restart.</strong> Open your roadmap.
+              Find the last thing you checked off. Start from the next one. You
+              didn't lose your progress.
             </p>
-            <p style="margin-bottom: 8px">
-              <strong style="color: var(--p2)">2. Shrink the session.</strong>
-              If 3 hours feels impossible, do 45 minutes. The goal is to break
-              the stall, not to catch up in one day.
+            <p>
+              <strong class="step">2. Shrink the session.</strong> If 3 hours
+              feels impossible, do 45 minutes. The goal is to break the stall,
+              not to catch up in one day.
             </p>
-            <p style="margin-bottom: 8px">
-              <strong style="color: var(--p2)"
+            <p>
+              <strong class="step"
                 >3. Re-explain the last thing you learned.</strong
               >
               Say it out loud. If you still can, you're closer than you think.
@@ -2669,9 +1713,9 @@
               point.
             </p>
             <p>
-              <strong style="color: var(--p2)">4. Text someone.</strong> Send a
-              DevCongress friend or a peer your 3 sentences. Accountability
-              survives isolation. Silence kills momentum.
+              <strong class="step">4. Text someone.</strong> Send a DevCongress
+              friend or a peer your 3 sentences. Accountability survives
+              isolation. Silence kills momentum.
             </p>
           </div>
         </div>
@@ -2689,54 +1733,40 @@
           </p>
         </div>
 
+        <!-- Overall Progress -->
         <div class="overall-progress">
           <div class="op-label">
             <div class="op-title">Overall Progress</div>
             <div class="op-pct" id="op-pct">0%</div>
           </div>
           <div class="op-bar">
-            <div class="op-fill" id="op-fill" style="width: 0%"></div>
+            <div class="op-fill" id="op-fill"></div>
           </div>
           <div class="op-phases">
             <div class="op-phase">
-              <div
-                class="op-phase-bar c1"
-                id="p1-bar"
-                style="opacity: 0.3"
-              ></div>
+              <div class="op-phase-bar c1" id="p1-bar"></div>
               <div class="op-phase-label">Phase 1</div>
               <div class="op-phase-count" id="p1-count">–</div>
             </div>
             <div class="op-phase">
-              <div
-                class="op-phase-bar c2"
-                id="p2-bar"
-                style="opacity: 0.3"
-              ></div>
+              <div class="op-phase-bar c2" id="p2-bar"></div>
               <div class="op-phase-label">Phase 2</div>
               <div class="op-phase-count" id="p2-count">–</div>
             </div>
             <div class="op-phase">
-              <div
-                class="op-phase-bar c3"
-                id="p3-bar"
-                style="opacity: 0.3"
-              ></div>
+              <div class="op-phase-bar c3" id="p3-bar"></div>
               <div class="op-phase-label">Phase 3</div>
               <div class="op-phase-count" id="p3-count">–</div>
             </div>
             <div class="op-phase">
-              <div
-                class="op-phase-bar c4"
-                id="p4-bar"
-                style="opacity: 0.3"
-              ></div>
+              <div class="op-phase-bar c4" id="p4-bar"></div>
               <div class="op-phase-label">Phase 4</div>
               <div class="op-phase-count" id="p4-count">–</div>
             </div>
           </div>
         </div>
 
+        <!-- Phase 1 Milestones -->
         <div class="milestone-group">
           <div class="milestone-group-title">
             Phase 1 — Solidify the Foundation
@@ -2827,9 +1857,10 @@
           </div>
         </div>
 
+        <!-- Phase 2 Milestones -->
         <div class="milestone-group">
           <div class="milestone-group-title p2">
-            Phase 2 — Architecture & Systems
+            Phase 2 — Architecture &amp; Systems
           </div>
           <div class="milestone" data-phase="2" onclick="toggleMilestone(this)">
             <div class="milestone-box">✓</div>
@@ -2882,7 +1913,7 @@
             <div class="milestone-box">✓</div>
             <div class="milestone-content">
               <div class="milestone-title">
-                API Design & Protocols understood deeply
+                API Design &amp; Protocols understood deeply
               </div>
               <div class="milestone-desc">
                 Can explain idempotency, REST vs gRPC vs GraphQL tradeoffs,
@@ -2904,9 +1935,10 @@
           </div>
         </div>
 
+        <!-- Phase 3 Milestones -->
         <div class="milestone-group">
           <div class="milestone-group-title p3">
-            Phase 3 — Java & OOP Discipline
+            Phase 3 — Java &amp; OOP Discipline
           </div>
           <div class="milestone" data-phase="3" onclick="toggleMilestone(this)">
             <div class="milestone-box">✓</div>
@@ -2970,6 +2002,7 @@
           </div>
         </div>
 
+        <!-- Phase 4 Milestones -->
         <div class="milestone-group">
           <div class="milestone-group-title p4">
             Phase 4 — Build Something Real
@@ -3010,13 +2043,14 @@
           </div>
         </div>
 
+        <!-- Golden Rule -->
         <div class="explain-test">
           <div class="explain-test-title">The Golden Rule</div>
           <p>
             "Repetition is the mother of skills. Little actions done everyday
             accumulate over time." —
-            <strong>Your own words. Hold yourself to them.</strong
-            ><br /><br />Check a milestone only when you can explain it
+            <strong>Your own words. Hold yourself to them.</strong><br /><br />
+            Check a milestone only when you can explain it
             <strong
               >out loud, without AI, like you're in a Turntabl
               interview.</strong
@@ -3027,196 +2061,6 @@
       </div>
     </div>
 
-    <script>
-      // ── STORAGE (progress persists across page reloads) ──
-      const STORAGE_KEY = "kwame_roadmap_progress";
-
-      function saveState() {
-        const state = { milestones: [], checks: [] };
-        document.querySelectorAll(".milestone").forEach((m) => {
-          state.milestones.push(m.classList.contains("done"));
-        });
-        document.querySelectorAll(".panel-check").forEach((c) => {
-          state.checks.push(c.classList.contains("checked"));
-        });
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      }
-
-      function loadState() {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (!raw) return;
-        try {
-          const state = JSON.parse(raw);
-          if (state.milestones) {
-            document.querySelectorAll(".milestone").forEach((m, i) => {
-              if (state.milestones[i]) m.classList.add("done");
-            });
-          }
-          if (state.checks) {
-            document.querySelectorAll(".panel-check").forEach((c, i) => {
-              if (state.checks[i]) {
-                c.classList.add("checked");
-                const node = c.closest(".node");
-                if (node) {
-                  node.classList.add("done");
-                  node.classList.remove("active-node", "p2", "p3", "p4");
-                }
-              }
-            });
-          }
-        } catch (e) {
-          /* corrupted state, ignore */
-        }
-      }
-
-      // ── VIEW SWITCHING ──
-      function switchView(name, btn) {
-        document
-          .querySelectorAll(".view")
-          .forEach((v) => v.classList.remove("active"));
-        document
-          .querySelectorAll(".nav-tab")
-          .forEach((t) => t.classList.remove("active"));
-        document.getElementById("view-" + name).classList.add("active");
-        btn.classList.add("active");
-      }
-
-      // ── NODE TOGGLE (graph view) ──
-      function toggleNode(node) {
-        const panel = node.querySelector(".node-panel");
-        if (!panel) return;
-        const isOpen = panel.classList.contains("open");
-        node
-          .closest(".node-grid")
-          .querySelectorAll(".node-panel")
-          .forEach((p) => p.classList.remove("open"));
-        if (!isOpen) panel.classList.add("open");
-      }
-
-      // ── SYNC: Skill Map checks ↔ Tracker milestones ──
-      function syncCheckToMilestone(checkEl) {
-        const checks = Array.from(document.querySelectorAll(".panel-check"));
-        const idx = checks.indexOf(checkEl);
-        if (idx === -1) return;
-        const milestones = document.querySelectorAll(".milestone");
-        if (idx < milestones.length) {
-          milestones[idx].classList.toggle(
-            "done",
-            checkEl.classList.contains("checked"),
-          );
-        }
-      }
-
-      function syncMilestoneToCheck(milestoneEl) {
-        const milestones = Array.from(document.querySelectorAll(".milestone"));
-        const idx = milestones.indexOf(milestoneEl);
-        if (idx === -1) return;
-        const checks = document.querySelectorAll(".panel-check");
-        if (idx < checks.length) {
-          const check = checks[idx];
-          const node = check.closest(".node");
-          const isDone = milestoneEl.classList.contains("done");
-          check.classList.toggle("checked", isDone);
-          if (node) {
-            if (isDone) {
-              node.classList.add("done");
-              node.classList.remove("active-node", "p2", "p3", "p4");
-            } else {
-              node.classList.remove("done");
-              const phase = node.closest(".phase-content");
-              const label = phase ? phase.querySelector(".phase-label") : null;
-              if (label) {
-                if (label.classList.contains("p2"))
-                  node.classList.add("active-node", "p2");
-                else if (label.classList.contains("p3"))
-                  node.classList.add("active-node", "p3");
-                else if (label.classList.contains("p4"))
-                  node.classList.add("active-node", "p4");
-                else node.classList.add("active-node");
-              }
-            }
-          }
-        }
-      }
-
-      // ── CHECK in node panel ──
-      function toggleCheck(e, el) {
-        e.stopPropagation();
-        el.classList.toggle("checked");
-        if (el.classList.contains("checked")) {
-          el.closest(".node").classList.add("done");
-          el.closest(".node").classList.remove("active-node", "p2", "p3", "p4");
-        } else {
-          const phase = el.closest(".phase-content");
-          const label = phase ? phase.querySelector(".phase-label") : null;
-          el.closest(".node").classList.remove("done");
-          if (label) {
-            if (label.classList.contains("p2"))
-              el.closest(".node").classList.add("active-node", "p2");
-            else if (label.classList.contains("p3"))
-              el.closest(".node").classList.add("active-node", "p3");
-            else if (label.classList.contains("p4"))
-              el.closest(".node").classList.add("active-node", "p4");
-            else el.closest(".node").classList.add("active-node");
-          }
-        }
-        syncCheckToMilestone(el);
-        updateGlobalProgress();
-        saveState();
-      }
-
-      // ── SCHEDULE CARD TOGGLE ──
-      function toggleCard(header) {
-        const body = header.nextElementSibling;
-        body.classList.toggle("open");
-      }
-
-      // ── MILESTONE TOGGLE (tracker view) ──
-      function toggleMilestone(el) {
-        el.classList.toggle("done");
-        syncMilestoneToCheck(el);
-        updateGlobalProgress();
-        saveState();
-      }
-
-      // ── PROGRESS ──
-      function updateGlobalProgress() {
-        const phases = [1, 2, 3, 4];
-        const totals = {};
-        phases.forEach((p) => {
-          totals[p] = document.querySelectorAll(
-            `.milestone[data-phase="${p}"]`,
-          ).length;
-        });
-        let totalDone = 0,
-          totalAll = 0;
-
-        phases.forEach((p) => {
-          const items = document.querySelectorAll(
-            `.milestone[data-phase="${p}"].done`,
-          );
-          const done = items.length;
-          const total = totals[p];
-          totalDone += done;
-          totalAll += total;
-          const pct = total > 0 ? done / total : 0;
-          const bar = document.getElementById(`p${p}-bar`);
-          const count = document.getElementById(`p${p}-count`);
-          if (bar) bar.style.opacity = 0.3 + pct * 0.7;
-          if (count) count.textContent = `${done}/${total}`;
-        });
-
-        const overall =
-          totalAll > 0 ? Math.round((totalDone / totalAll) * 100) : 0;
-        document.getElementById("op-pct").textContent = overall + "%";
-        document.getElementById("op-fill").style.width = overall + "%";
-        document.getElementById("nav-pct").textContent = overall + "%";
-        document.getElementById("nav-fill").style.width = overall + "%";
-      }
-
-      // ── INIT ──
-      loadState();
-      updateGlobalProgress();
-    </script>
+    <script src="js/app.js"></script>
   </body>
 </html>
