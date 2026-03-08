@@ -1,0 +1,6 @@
+
+//add learning.md to .gitignore to prevent it from being tracked by git
+# Ignore the learning.md file
+learning.md
+
+ 

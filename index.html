@@ -24,6 +24,9 @@
         <button class="nav-tab" onclick="switchView('tracker', this)">
           Tracker
         </button>
+        <button class="nav-tab" onclick="switchView('guide', this)">
+          Learn
+        </button>
       </div>
       <div class="nav-progress">
         <span class="nav-pct" id="nav-pct">0%</span>
@@ -2057,6 +2060,432 @@
             >
             Not when you've built it. When you truly own it.
           </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════ LEARNING GUIDE VIEW ══════════════ -->
+    <div class="view" id="view-guide">
+      <div class="guide-view">
+        <div class="guide-header">
+          <h2>Learning Guide</h2>
+          <p>
+            The roadmap is just a map. How you walk it determines everything.
+          </p>
+        </div>
+
+        <!-- Core Method -->
+        <div class="guide-section">
+          <div class="guide-section-title">The Core Method</div>
+          <div class="guide-section-sub">
+            Read → Build → Break → Explain — every topic follows this loop
+          </div>
+          <div class="method-grid">
+            <div class="method-card">
+              <div class="method-icon">📖</div>
+              <div class="method-step">
+                Read <span class="method-when">Friday</span>
+              </div>
+              <div class="method-desc">
+                One article, one video, one chapter. Not three. Depth > breadth.
+                Your brain needs time to process.
+              </div>
+            </div>
+            <div class="method-card">
+              <div class="method-icon">🔨</div>
+              <div class="method-step">
+                Build <span class="method-when">Saturday</span>
+              </div>
+              <div class="method-desc">
+                Code what you read. Don't copy — recreate from memory. Writing
+                forces gaps to surface.
+              </div>
+            </div>
+            <div class="method-card">
+              <div class="method-icon">💥</div>
+              <div class="method-step">
+                Break <span class="method-when">Saturday</span>
+              </div>
+              <div class="method-desc">
+                Intentionally break what you built. Change inputs, kill
+                services, send bad data. You learn systems by watching them
+                fail.
+              </div>
+            </div>
+            <div class="method-card">
+              <div class="method-icon">🗣️</div>
+              <div class="method-step">
+                Explain <span class="method-when">Sunday</span>
+              </div>
+              <div class="method-desc">
+                Say it out loud. Write your 3 sentences. If you can't explain it
+                simply, you don't understand it yet.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resources -->
+        <div class="guide-section">
+          <div class="guide-section-title">Resources — Curated Per Phase</div>
+          <div class="guide-section-sub">
+            One source per topic at a time. Tutorial-hopping feels productive
+            but teaches nothing.
+          </div>
+
+          <!-- Phase 1 Resources -->
+          <div class="resource-phase">
+            <div class="resource-phase-label">Phase 1 — Foundation</div>
+            <div class="resource-list">
+              <a
+                href="https://github.com/goldbergyoni/nodebestpractices"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card"
+              >
+                <div class="resource-name">Node.js Best Practices</div>
+                <div class="resource-why">
+                  Not a tutorial. A checklist of production patterns. Read 2–3
+                  per week.
+                </div>
+                <div class="resource-tag">GitHub</div>
+              </a>
+              <a
+                href="https://www.totaltypescript.com/tutorials"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card"
+              >
+                <div class="resource-name">Total TypeScript — Matt Pocock</div>
+                <div class="resource-why">
+                  Free tutorials. He explains <em>why</em> TypeScript works the
+                  way it does.
+                </div>
+                <div class="resource-tag">Course</div>
+              </a>
+              <a
+                href="https://www.theodinproject.com/paths/full-stack-javascript/courses/nodejs"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card"
+              >
+                <div class="resource-name">The Odin Project — NodeJS Path</div>
+                <div class="resource-why">
+                  Structured, project-based, free. Skip what you know, slow down
+                  where you don't.
+                </div>
+                <div class="resource-tag">Course</div>
+              </a>
+              <a
+                href="https://owasp.org/www-project-top-ten/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card"
+              >
+                <div class="resource-name">OWASP Top 10</div>
+                <div class="resource-why">
+                  Read the actual source. Not a blog post about it — the real
+                  thing.
+                </div>
+                <div class="resource-tag">Reference</div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Phase 2 Resources -->
+          <div class="resource-phase">
+            <div class="resource-phase-label p2">Phase 2 — Architecture</div>
+            <div class="resource-list">
+              <a
+                href="https://dataintensive.net/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card p2"
+              >
+                <div class="resource-name">
+                  Designing Data-Intensive Applications
+                </div>
+                <div class="resource-why">
+                  <strong>THE book.</strong> Chapters 1–3 minimum. Read one
+                  section per Friday, re-read Saturday.
+                </div>
+                <div class="resource-tag">Book</div>
+              </a>
+              <a
+                href="https://sqlbolt.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card p2"
+              >
+                <div class="resource-name">SQL Bolt</div>
+                <div class="resource-why">
+                  Interactive SQL lessons. Do all of them in one Saturday — it's
+                  fast.
+                </div>
+                <div class="resource-tag">Interactive</div>
+              </a>
+              <a
+                href="https://university.redis.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card p2"
+              >
+                <div class="resource-name">Redis University</div>
+                <div class="resource-why">
+                  Official, free, well-structured. Better than any YouTube
+                  tutorial.
+                </div>
+                <div class="resource-tag">Course</div>
+              </a>
+              <a
+                href="https://github.com/donnemartin/system-design-primer"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card p2"
+              >
+                <div class="resource-name">System Design Primer</div>
+                <div class="resource-why">
+                  Free. Covers everything on your System Design node. Reference
+                  it, don't binge it.
+                </div>
+                <div class="resource-tag">GitHub</div>
+              </a>
+              <a
+                href="https://docs.docker.com/get-started/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card p2"
+              >
+                <div class="resource-name">Docker Getting Started</div>
+                <div class="resource-why">
+                  The official tutorial is genuinely good. Don't use a YouTube
+                  shortcut.
+                </div>
+                <div class="resource-tag">Docs</div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Phase 3 Resources -->
+          <div class="resource-phase">
+            <div class="resource-phase-label p3">Phase 3 — Java &amp; OOP</div>
+            <div class="resource-list">
+              <a
+                href="https://www.boot.dev"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card p3"
+              >
+                <div class="resource-name">HTTP Server Project — boot.dev</div>
+                <div class="resource-why">
+                  The exact project on your roadmap. Free to follow.
+                </div>
+                <div class="resource-tag">Course</div>
+              </a>
+              <a
+                href="https://java-programming.mooc.fi/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card p3"
+              >
+                <div class="resource-name">
+                  Java MOOC — University of Helsinki
+                </div>
+                <div class="resource-why">
+                  Best free Java course that exists. Rigorous, not hand-holdy.
+                </div>
+                <div class="resource-tag">Course</div>
+              </a>
+              <a
+                href="https://spring.io/guides"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card p3"
+              >
+                <div class="resource-name">Spring Boot Official Guides</div>
+                <div class="resource-why">
+                  Short, focused, official. Do "Building a REST API" first.
+                </div>
+                <div class="resource-tag">Docs</div>
+              </a>
+              <a
+                href="https://refactoring.guru/design-patterns"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card p3"
+              >
+                <div class="resource-name">
+                  Refactoring Guru — Design Patterns
+                </div>
+                <div class="resource-why">
+                  Visual explanations of every pattern. Read one, then implement
+                  it in your code.
+                </div>
+                <div class="resource-tag">Reference</div>
+              </a>
+              <a
+                href="https://neetcode.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card p3"
+              >
+                <div class="resource-name">NeetCode 150</div>
+                <div class="resource-why">
+                  For DSA. Start with Easy arrays/hashmaps. 2–3 per week max.
+                </div>
+                <div class="resource-tag">Practice</div>
+              </a>
+            </div>
+          </div>
+
+          <!-- Phase 4 Resources -->
+          <div class="resource-phase">
+            <div class="resource-phase-label p4">Phase 4 — Capstone</div>
+            <div class="resource-list">
+              <a
+                href="https://adr.github.io/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card p4"
+              >
+                <div class="resource-name">Architecture Decision Records</div>
+                <div class="resource-why">
+                  How real teams document design decisions. Use this format for
+                  your capstone README.
+                </div>
+                <div class="resource-tag">Reference</div>
+              </a>
+              <a
+                href="https://www.pramp.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="resource-card p4"
+              >
+                <div class="resource-name">Pramp</div>
+                <div class="resource-why">
+                  Free mock interviews with real people. Do 5+ before applying
+                  anywhere.
+                </div>
+                <div class="resource-tag">Practice</div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Study Rules -->
+        <div class="guide-section">
+          <div class="guide-section-title">Study Rules</div>
+          <div class="guide-rules">
+            <div class="guide-rule">
+              <div class="guide-rule-num">01</div>
+              <div class="guide-rule-content">
+                <div class="guide-rule-title">
+                  One source per topic at a time
+                </div>
+                <div class="guide-rule-body">
+                  Don't watch 3 YouTube videos on the same thing. Pick one
+                  source, go deep, move on. Tutorial-hopping feels productive
+                  but teaches nothing.
+                </div>
+              </div>
+            </div>
+            <div class="guide-rule">
+              <div class="guide-rule-num">02</div>
+              <div class="guide-rule-content">
+                <div class="guide-rule-title">Never read without a pen</div>
+                <div class="guide-rule-body">
+                  Physical notebook or Obsidian/Notion — doesn't matter. But
+                  every Friday session produces written notes in your own words.
+                  Not copy-pasted. Rewritten.
+                </div>
+              </div>
+            </div>
+            <div class="guide-rule">
+              <div class="guide-rule-num">03</div>
+              <div class="guide-rule-content">
+                <div class="guide-rule-title">The 20-minute rule</div>
+                <div class="guide-rule-body">
+                  If you're stuck for more than 20 minutes, write down exactly
+                  what you're stuck on in one sentence. Then ask for help. The
+                  sentence is the important part — it forces you to articulate
+                  the gap.
+                </div>
+              </div>
+            </div>
+            <div class="guide-rule">
+              <div class="guide-rule-num">04</div>
+              <div class="guide-rule-content">
+                <div class="guide-rule-title">Don't binge on weekdays</div>
+                <div class="guide-rule-body">
+                  You're drained by 8pm. The 30-minute weekday window is for
+                  review only. Re-read your notebook. Draw one diagram. Do one
+                  LeetCode. That's it. New learning on weekdays will frustrate
+                  you and erode Saturday motivation.
+                </div>
+              </div>
+            </div>
+            <div class="guide-rule">
+              <div class="guide-rule-num">05</div>
+              <div class="guide-rule-content">
+                <div class="guide-rule-title">Build ugly first</div>
+                <div class="guide-rule-body">
+                  Your first Task API will be messy. Your first SQL queries will
+                  be slow. Your HTTP server will crash. This is correct. Clean
+                  code comes from understanding what dirty code breaks — not
+                  from copying clean patterns you don't understand.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mindset -->
+        <div class="guide-section">
+          <div class="guide-section-title">Mindset Shifts</div>
+          <div class="mindset-cards">
+            <div class="mindset-card">
+              <div class="mindset-title">
+                "I already know this" is your biggest enemy
+              </div>
+              <div class="mindset-body">
+                You've built APIs. You've used TypeScript. The temptation in
+                Phase 1 will be to rush. Don't. The goal is not to
+                <em>use</em> TypeScript — it's to <em>explain</em> TypeScript.
+                There's a massive gap between the two. CropScan proved you can
+                build. This roadmap proves you can think.
+              </div>
+            </div>
+            <div class="mindset-card">
+              <div class="mindset-title">
+                Learning feels slow when it's working
+              </div>
+              <div class="mindset-body">
+                If you finish a Saturday session and feel like you barely
+                covered anything — that's depth. That's the goal. If you covered
+                5 topics in 3 hours, you learned none of them.
+              </div>
+            </div>
+            <div class="mindset-card">
+              <div class="mindset-title">Your job is not wasted time</div>
+              <div class="mindset-body">
+                Bank of Africa gives you domain knowledge in fintech, data
+                validation, and institutional systems. When you build your
+                capstone, that context is your unfair advantage. No bootcamp
+                graduate has it. Use it.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Final reminder -->
+        <div class="guide-final">
+          <div class="guide-final-text">
+            I have <strong>context.md</strong>. I have the roadmap. I have the
+            recovery protocol for when you stall.<br /><br />
+            The only thing that matters now is
+            <strong>next Saturday morning.</strong><br /><br />
+            Wake up. Laptop before phone. Open Phase 1, Node 1. Start.
+          </div>
         </div>
       </div>
     </div>
